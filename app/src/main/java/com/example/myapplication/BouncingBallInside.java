@@ -12,6 +12,7 @@ import java.util.List;
 public class BouncingBallInside extends View {
     private List<Ball> balls = new ArrayList<>();
 
+
     public BouncingBallInside(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();

@@ -4,8 +4,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.widget.ImageView;
 
-public class Ball{
+public class Ball {
     public int[] direction = new int[]{1,1}; //direction modifier (-1,1)
     public int x,y,size;
     public int speed = 10;
@@ -19,6 +20,7 @@ public class Ball{
         this.paint = new Paint();
         this.paint.setColor(color);
     }
+
 
     public void move(Canvas canvas) {
         this.x += speed*direction[0];
@@ -39,4 +41,5 @@ public class Ball{
             }
         }
     }
+
 }
