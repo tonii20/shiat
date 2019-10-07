@@ -222,9 +222,9 @@ public class MainActivity extends AppCompatActivity {
     public RectF oval;
         public void move() {
 
-            scorePlayer2.setText("nois");
+
             fussball.setX(fussball.getX() + speed * direction[0]);
-            fussball.setY(fussball.getY() + speed * direction[0]);
+            fussball.setY(fussball.getY() + speed * direction[1]);
             int size = fussball.getWidth();
             this.oval = new RectF(fussball.getX() - size / 2,
                     fussball.getY() - size / 2, fussball.getX() + size / 2,
@@ -236,10 +236,10 @@ public class MainActivity extends AppCompatActivity {
             //This is what you're looking for ▼
 
             if (!gameFrame.getClipBounds(bounds)) {
-                if (fussball.getX() - size < 0 || fussball.getX() + size > gameFrame.getWidth()) {
+                if (fussball.getX() < 0 || fussball.getX() + size > gameFrame.getWidth()) {
                     direction[0] = direction[0] * -1;
                 }
-                if (fussball.getY() - size < 0 || fussball.getY() + size > gameFrame.getHeight()) {
+                if (fussball.getY() < 0 || fussball.getY() + size > gameFrame.getHeight()) {
                     direction[1] = direction[1] * -1;
                 }
             }
