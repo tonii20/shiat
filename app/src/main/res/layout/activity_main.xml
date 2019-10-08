@@ -24,7 +24,7 @@
 
         <ImageView
             android:id="@+id/player1"
-            android:layout_width="125dp"
+            android:layout_width="115dp"
             android:layout_height="33dp"
             android:layout_gravity="bottom"
             android:src="@drawable/klavier"

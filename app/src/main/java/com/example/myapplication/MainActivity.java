@@ -34,43 +34,36 @@ import be.tarsos.dsp.pitch.PitchProcessor;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FrameLayout gameFrame;
-    private LinearLayout startLayout;
-    private int frameHeight, frameWidth, initialFrameWidth;
+    //Ball
+    public int[] direction = new int[]{1, 1}; //direction modifier (-1,1)
+    public int speed = 13;
+    public RectF oval;
 
     //Image
-
     ImageView player1, player2, fussball;
 
 
     //Size
-
-    private int player1Size, player2Size, ballSize;
+    TextView pitchText;
 
     //Position
-
-    private float player1X, player1Y;
-    private float player2X, player2Y;
+    TextView noteText;
+    //Handler
+    Timer timer;
 
     //Score
-
+    Handler handler;
+    Thread barBewegen = new Thread();
+    private FrameLayout gameFrame;
+    private LinearLayout startLayout;
+    private int frameHeight, frameWidth, initialFrameWidth;
+    private int player1Size, player2Size, ballSize;
+    private float player1X, player1Y;
+    private float player2X, player2Y;
     private TextView scorePlayer1, scorePlayer2;
-
     private int score1, score2;
     //Status
     private boolean start_flg = false;
-    TextView pitchText;
-    TextView noteText;
-
-    //Handler
-    Timer timer;
-    Handler handler;
-
-    //Ball
-    public int[] direction = new int[]{1,1}; //direction modifier (-1,1)
-    public int speed = 13;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,46 +78,149 @@ public class MainActivity extends AppCompatActivity {
         scorePlayer1 = findViewById(R.id.scorePlayer1);
         scorePlayer2 = findViewById(R.id.scorePlayer2);
 
+
     }
 
     public void processPitch(float pitchInHz) {
 
-        float laenge = frameWidth/7;
+        final float laenge = frameWidth / 7;
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
 
-        //  if(pitchInHz >= 80 && pitchInHz < 220) {
-        //    action_flg = true;
-
-
-        if (pitchInHz >= 80 && pitchInHz < 100) {
-            player1X = 0;
-        } else if (pitchInHz >= 100 && pitchInHz < 120) {
-            player1X = laenge;
-        } else if (pitchInHz >= 120 && pitchInHz < 140) {
-            player1X = 2*laenge;
-        } else if (pitchInHz >= 140 && pitchInHz < 160) {
-            player1X = 3*laenge;
-        } else if (pitchInHz >= 160 && pitchInHz <= 180) {
-            player1X = 4*laenge;
-        } else if (pitchInHz >= 180 && pitchInHz < 200) {
-            player1X = 5*laenge;
-        } else if (pitchInHz >= 200 && pitchInHz < 220) {
-            player1X = 6 *laenge;
-        }
+            }
+        };
+        if (pitchInHz >= 70 && pitchInHz < 800) {
 
 
+            if (pitchInHz >= 70 && pitchInHz < 90) {
+
+                r = new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < 6; i++) {
+                            if (player1X > 0) {
+                                player1X = player1X - 3;
+                            }
+                            player1.setX(player1X);
+                            player2.setX(player1X);
+
+                        }
+                    }
+                };
+
+
+            } else if (pitchInHz >= 90 && pitchInHz < 120) {
+
+
+                r = new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < 6; i++) {
+                            if (player1X > laenge) {
+                                player1X = player1X - 3;
+                            }
+                            if (player1X < laenge) {
+                                player1X = player1X + 3;
+                            }
+                            player1.setX(player1X);
+                            player2.setX(player1X);
+                        }
+                    }
+                };
+
+
+            } else if (pitchInHz >= 120 && pitchInHz < 200) {
+                r = new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < 6; i++) {
+                            if (player1X > 2 * laenge) {
+                                player1X = player1X - 3;
+                            }
+                            if (player1X < 2 * laenge) {
+                                player1X = player1X + 3;
+                            }
+                            player1.setX(player1X);
+                            player2.setX(player1X);
+                        }
+                    }
+                };
+            } else if (pitchInHz >= 200 && pitchInHz < 300) {
+                r = new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < 6; i++) {
+                            if (player1X > 3 * laenge) {
+                                player1X = player1X - 3;
+                            }
+                            if (player1X < 3 * laenge) {
+                                player1X = player1X + 3;
+                            }
+                            player1.setX(player1X);
+                            player2.setX(player1X);
+                        }
+                    }
+                };
+            } else if (pitchInHz >= 300 && pitchInHz <= 500) {
+
+                r = new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < 6; i++) {
+                            if (player1X > 4 * laenge) {
+                                player1X = player1X - 3;
+                            }
+                            if (player1X < 4 * laenge) {
+                                player1X = player1X + 3;
+                            }
+                            player1.setX(player1X);
+                            player2.setX(player1X);
+                        }
+                    }
+                };
+            } else if (pitchInHz >= 500 && pitchInHz < 700) {
+                r = new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < 6; i++) {
+                            if (player1X > 5 * laenge) {
+                                player1X = player1X - 3;
+                            }
+                            if (player1X < 5 * laenge) {
+                                player1X = player1X + 3;
+                            }
+                            player1.setX(player1X);
+                            player2.setX(player1X);
+                        }
+                    }
+                };
+            } else if (pitchInHz >= 700 && pitchInHz < 798) {
+                r = new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < 6; i++) {
+                            if (player1X > 5 * laenge) {
+                                player1X = player1X - 3;
+                            }
+                            if (player1X < 5 * laenge) {
+                                player1X = player1X + 3;
+                            }
+                            player1.setX(player1X);
+                            player2.setX(player1X);
+
+                        }
+                    }
+                };
+            }
+
+            barBewegen = new Thread(r);
+            barBewegen.start();
             player1.setX(player1X);
-            player2.setX(player2X);
-
-
-
-    }
-    private class Task1 implements Runnable {
-        @Override
-        public void run() {
-            pitchText.setText("gsdafdsafdsa");
-            move();
-            handler.postDelayed(this, 100);
+            player2.setX(player1X);
         }
+
+
     }
 
     public void startGame(View view) {
@@ -136,25 +232,11 @@ public class MainActivity extends AppCompatActivity {
         noteText = (TextView) findViewById(R.id.scorePlayer2);
 
 
+        handler = new Handler();
+        Task1 task1 = new Task1();
+        handler.postDelayed(task1, 30);
 
-        handler  = new Handler();
-       Task1 task1 = new Task1();
-        handler.postDelayed(task1, 100);
 
-
-        /*Timer t = new Timer();
-        t.scheduleAtFixedRate(new TimerTask() {
-
-            @Override
-            public void run() {
-
-                        scorePlayer1.setText("jjjjjj");
-                        //move();
-
-            }
-
-        }, 0, 100);
-*/
         PitchDetectionHandler pdh = new PitchDetectionHandler() {
 
             @Override
@@ -165,8 +247,6 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 processPitch(pitchInHz);
-                                move();
-
 
                             }
                         });
@@ -215,38 +295,42 @@ public class MainActivity extends AppCompatActivity {
         scorePlayer2.setText("Score: 0");
 
 
-
     }
 
-
-    public RectF oval;
-        public void move() {
+    public void move() {
 
 
-            fussball.setX(fussball.getX() + speed * direction[0]);
-            fussball.setY(fussball.getY() + speed * direction[1]);
-            int size = fussball.getWidth();
-            this.oval = new RectF(fussball.getX() - size / 2,
-                    fussball.getY() - size / 2, fussball.getX() + size / 2,
-                    fussball.getY() + size / 2);
-            Rect bounds = new Rect();
-            this.oval.roundOut(bounds);
+        fussball.setX(fussball.getX() + speed * direction[0]);
+        fussball.setY(fussball.getY() + speed * direction[1]);
+        int size = fussball.getWidth();
+        this.oval = new RectF(fussball.getX() - size / 2,
+                fussball.getY() - size / 2, fussball.getX() + size / 2,
+                fussball.getY() + size / 2);
+        Rect bounds = new Rect();
+        this.oval.roundOut(bounds);
 
 
-            //This is what you're looking for ▼
+        //This is what you're looking for ▼
 
-            if (!gameFrame.getClipBounds(bounds)) {
-                if (fussball.getX() < 0 || fussball.getX() + size > gameFrame.getWidth()) {
-                    direction[0] = direction[0] * -1;
-                }
-                if (fussball.getY() < 0 || fussball.getY() + size > gameFrame.getHeight()) {
-                    direction[1] = direction[1] * -1;
-                }
+        if (!gameFrame.getClipBounds(bounds)) {
+            if (fussball.getX() < 0 || fussball.getX() + size > gameFrame.getWidth()) {
+                direction[0] = direction[0] * -1;
+            }
+            if (fussball.getY() < 0 || fussball.getY() + size > gameFrame.getHeight()) {
+                direction[1] = direction[1] * -1;
             }
         }
-
+    }
 
     public void quitGame(View view) {
 
+    }
+
+    private class Task1 implements Runnable {
+        @Override
+        public void run() {
+            move();
+            handler.postDelayed(this, 30);
+        }
     }
 }
