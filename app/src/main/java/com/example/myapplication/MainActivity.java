@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
     //Position
     TextView noteText;
     //Handler
-    Timer timer;
 
     //Score
     Handler handler;
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView scorePlayer1, scorePlayer2;
     private int score1, score2;
     //Status
-    private boolean start_flg = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +75,6 @@ public class MainActivity extends AppCompatActivity {
         player1 = findViewById(R.id.player1);
         player2 = findViewById(R.id.player2);
         fussball = findViewById(R.id.fussball);
-
-
-
 
 
         scorePlayer1 = findViewById(R.id.scorePlayer1);
@@ -233,11 +229,6 @@ public class MainActivity extends AppCompatActivity {
 
         AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
 
-
-        pitchText = (TextView) findViewById(R.id.scorePlayer1);
-        noteText = (TextView) findViewById(R.id.scorePlayer2);
-
-
         handler = new Handler();
         Task1 task1 = new Task1();
         handler.postDelayed(task1, 30);
@@ -270,23 +261,17 @@ public class MainActivity extends AppCompatActivity {
         startLayout.setVisibility(View.INVISIBLE);
 
         if (frameHeight == 0) {
-           frameHeight = gameFrame.getHeight();
-           frameWidth = gameFrame.getWidth();
+            frameHeight = gameFrame.getHeight();
+            frameWidth = gameFrame.getWidth();
             initialFrameWidth = frameWidth;
-            fussball.getLayoutParams().height = frameWidth/15;
-            fussball.getLayoutParams().width =  frameWidth/15;
+            fussball.getLayoutParams().height = frameWidth / 15;
+            fussball.getLayoutParams().width = frameWidth / 15;
             fussball.setScaleType(ImageView.ScaleType.FIT_XY);
-           player1.getLayoutParams().width = frameWidth / 5;
-           player2.getLayoutParams().width = frameWidth / 5;
+            player1.getLayoutParams().width = frameWidth / 5;
+            player2.getLayoutParams().width = frameWidth / 5;
             player1.setScaleType(ImageView.ScaleType.FIT_XY);
             player2.setScaleType(ImageView.ScaleType.FIT_XY);
 
-
-            player1X = player1.getX();
-            player1Y = player1.getY();
-
-            player2X = player2.getX();
-            player2Y = player2.getY();
         }
 
         player1.setX(375.0f);
@@ -299,9 +284,6 @@ public class MainActivity extends AppCompatActivity {
         player1.setVisibility(View.VISIBLE);
         player2.setVisibility(View.VISIBLE);
 
-        score1 = 0;
-        score2 = 0;
-        pitchText.setText("start");
         scorePlayer1.setText("Score: 0");
         scorePlayer2.setText("Score: 0");
 
@@ -329,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (fussball.getY() < 0 || fussball.getY() + size > gameFrame.getHeight()) {
-               // direction[1] = direction[1] * -1;
+                // direction[1] = direction[1] * -1;
 
             }
         }
