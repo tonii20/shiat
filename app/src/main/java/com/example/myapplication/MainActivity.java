@@ -5,6 +5,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Display;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout gameFrame;
     private LinearLayout startLayout;
     private int frameHeight, frameWidth, initialFrameWidth;
-    private int player1Size, player2Size, ballSize;
+
     private float player1X, player1Y;
     private float player2X, player2Y;
     private TextView scorePlayer1, scorePlayer2;
@@ -75,6 +76,11 @@ public class MainActivity extends AppCompatActivity {
         player1 = findViewById(R.id.player1);
         player2 = findViewById(R.id.player2);
         fussball = findViewById(R.id.fussball);
+
+
+
+
+
         scorePlayer1 = findViewById(R.id.scorePlayer1);
         scorePlayer2 = findViewById(R.id.scorePlayer2);
 
@@ -264,12 +270,17 @@ public class MainActivity extends AppCompatActivity {
         startLayout.setVisibility(View.INVISIBLE);
 
         if (frameHeight == 0) {
-            frameHeight = gameFrame.getHeight();
-            frameWidth = gameFrame.getWidth();
+           frameHeight = gameFrame.getHeight();
+           frameWidth = gameFrame.getWidth();
             initialFrameWidth = frameWidth;
+            fussball.getLayoutParams().height = frameWidth/15;
+            fussball.getLayoutParams().width =  frameWidth/15;
+            fussball.setScaleType(ImageView.ScaleType.FIT_XY);
+           player1.getLayoutParams().width = frameWidth / 5;
+           player2.getLayoutParams().width = frameWidth / 5;
+            player1.setScaleType(ImageView.ScaleType.FIT_XY);
+            player2.setScaleType(ImageView.ScaleType.FIT_XY);
 
-            player1Size = frameWidth / 7;
-            player2Size = frameWidth / 7;
 
             player1X = player1.getX();
             player1Y = player1.getY();
@@ -316,8 +327,10 @@ public class MainActivity extends AppCompatActivity {
             if (fussball.getX() < 0 || fussball.getX() + size > gameFrame.getWidth()) {
                 direction[0] = direction[0] * -1;
             }
+
             if (fussball.getY() < 0 || fussball.getY() + size > gameFrame.getHeight()) {
-                direction[1] = direction[1] * -1;
+               // direction[1] = direction[1] * -1;
+
             }
         }
     }
