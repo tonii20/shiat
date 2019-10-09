@@ -37,22 +37,15 @@ public class MainActivity extends AppCompatActivity {
 
     //Ball
     public int[] direction = new int[]{1, 1}; //direction modifier (-1,1)
-    public int speed = 13;
+    public int speed = 5;
     public RectF oval;
 
     //Image
     ImageView player1, player2, fussball;
 
 
-    //Size
-    TextView pitchText;
-
-    //Position
-    TextView noteText;
-    //Handler
-
     //Score
-    Handler handler;
+
     Thread barBewegen = new Thread();
     private FrameLayout gameFrame;
     private LinearLayout totalLayout;
@@ -71,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         gameFrame = findViewById(R.id.gameFrame);
         startLayout = findViewById(R.id.startLayout);
@@ -227,13 +219,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    Timer timer;
+    Task1 task1;
     public void startGame(View view) {
 
         AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
 
-        handler = new Handler();
-        Task1 task1 = new Task1();
-        handler.postDelayed(task1, 30);
+        //handler = new Handler();
+        task1 = new Task1();
+        // handler.postDelayed(task1, 30);
+        timer = new Timer();
+        timer.scheduleAtFixedRate(task1,5000,12);
 
 
         PitchDetectionHandler pdh = new PitchDetectionHandler() {
@@ -303,11 +299,27 @@ public class MainActivity extends AppCompatActivity {
         fussball.setX(fussball.getX() + speed * direction[0]);
         fussball.setY(fussball.getY() + speed * direction[1]);
         int size = fussball.getWidth();
+
+
         this.oval = new RectF(fussball.getX() - size / 2,
                 fussball.getY() - size / 2, fussball.getX() + size / 2,
                 fussball.getY() + size / 2);
         Rect bounds = new Rect();
         this.oval.roundOut(bounds);
+
+
+        //Check if ball auf dem Player
+            if(fussball.getY() >= (player1.getY() - player1.getHeight())) {
+                if ((player1.getX() - size / 2 <= fussball.getX()) && (player1.getX() + size / 2 + player1.getWidth() >= fussball.getX())) {
+                    direction[1] = direction[1] * -1;
+                }
+            }
+
+        if(fussball.getY() <= player2.getY() + player2.getHeight())  {
+            if ((player2.getX() - size / 2 <= fussball.getX()) && (player2.getX() + size / 2 + player2.getWidth() >= fussball.getX())) {
+                direction[1] = direction[1] * -1;
+            }
+        }
 
 
         //This is what you're looking for ▼
@@ -317,12 +329,35 @@ public class MainActivity extends AppCompatActivity {
                 direction[0] = direction[0] * -1;
             }
 
-            if (fussball.getY() < 0 || fussball.getY() + size > gameFrame.getHeight()) {
-                //direction[1] = direction[1] * -1;
+            if (fussball.getY() < 0 ){
+                timer.cancel();
 
-                goal.setText("Goooooall");
-                goal.setVisibility(View.VISIBLE);
 
+                task1=null;
+
+                player1.setX(375.0f);
+                player2.setX(375.0f);
+
+                fussball.setX(500.0f);
+                fussball.setY(670.0f);
+
+                task1 = new Task1();
+                timer.scheduleAtFixedRate(task1,5000,12);
+            }
+                if( fussball.getY() + size > gameFrame.getHeight()) {
+
+                    timer.cancel();
+
+                    task1=null;
+
+                    player1.setX(375.0f);
+                    player2.setX(375.0f);
+
+                    fussball.setX(500.0f);
+                    fussball.setY(670.0f);
+                    timer = new Timer();
+                    task1 = new Task1();
+                    timer.scheduleAtFixedRate(task1,5000,12);
             }
         }
     }
@@ -331,11 +366,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private class Task1 implements Runnable {
-        @Override
+    private class Task1 extends TimerTask{
+
         public void run() {
-            move();
-            handler.postDelayed(this, 30);
+              move();
+
         }
     }
 }
