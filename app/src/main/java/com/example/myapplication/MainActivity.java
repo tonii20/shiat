@@ -36,28 +36,36 @@ import be.tarsos.dsp.pitch.PitchProcessor;
 public class MainActivity extends AppCompatActivity {
 
     //Ball
-    public int[] direction = new int[]{1, 1}; //direction modifier (-1,1)
-    public int speed = 5;
-    public RectF oval;
+    private int[] direction = new int[]{1, 1}; //direction modifier (-1,1)
+    private int speed = 5;
+    private RectF oval;
+    private int size;
+
 
     //Image
     ImageView player1, player2, fussball;
+    private int initialPosY ;
+    private int initialPosX ;
 
 
     //Score
 
     Thread barBewegen = new Thread();
     private FrameLayout gameFrame;
-    private LinearLayout totalLayout;
     private LinearLayout startLayout;
-    private int frameHeight, frameWidth, initialFrameWidth;
+    private int frameHeight, frameWidth;
     private TextView goal;
+    private boolean goalVisible=false;
 
     private float player1X, player1Y;
     private float player2X, player2Y;
     private TextView scorePlayer1, scorePlayer2;
     private int score1, score2;
-    //Status
+    //Threadscheise
+    Timer timer;
+    Task1 task1;
+
+
 
 
     @Override
@@ -72,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
         fussball = findViewById(R.id.fussball);
         scorePlayer1 = findViewById(R.id.scorePlayer1);
         scorePlayer2 = findViewById(R.id.scorePlayer2);
-        totalLayout = findViewById(R.id.totalLayout);
         goal = findViewById(R.id.goalText);
 
     }
@@ -199,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
                             if (player1X > 5 * laenge) {
                                 player1X = player1X - 3;
                             }
-                            if (player1X < 5 * laenge) {
+                            if (player1X < 6 * laenge) {
                                 player1X = player1X + 3;
                             }
                             player1.setX(player1X);
@@ -219,8 +226,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    Timer timer;
-    Task1 task1;
+
     public void startGame(View view) {
 
         AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
@@ -258,12 +264,18 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (frameHeight == 0) {
-            frameHeight = gameFrame.getHeight();
-            frameWidth = gameFrame.getWidth();
-            initialFrameWidth = frameWidth;
+            gameFrame.setLayoutParams(new LinearLayout.LayoutParams(gameFrame.getWidth(),gameFrame.getHeight()*9/10));
+
+
+            frameHeight = gameFrame.getLayoutParams().height;
+            frameWidth = gameFrame.getLayoutParams().width;
+
             fussball.getLayoutParams().height = frameWidth / 15;
-            fussball.getLayoutParams().width = frameWidth / 15;
+            size = frameWidth/15;
+            fussball.getLayoutParams().width = size;
             fussball.setScaleType(ImageView.ScaleType.FIT_XY);
+            player1.getLayoutParams().height = (frameWidth / 5 ) / 4;
+            player2.getLayoutParams().height = (frameWidth / 5 )/4;
 
             player1.getLayoutParams().width = frameWidth / 5;
             player2.getLayoutParams().width = frameWidth / 5;
@@ -272,9 +284,8 @@ public class MainActivity extends AppCompatActivity {
             player1.setX(frameWidth/2 - player1.getLayoutParams().width/2);
             player2.setX(frameWidth/2- player2.getLayoutParams().width/2);
 
-            float initialPosY = (float) frameHeight/2;
-            float initialPosX = (float) frameWidth/2;
-            gameFrame.getLayoutParams().height = totalLayout.getHeight()*9/10;
+            initialPosY =  frameHeight/2 - size/2;
+            initialPosX =  frameWidth/2 - size/2;
 
 
             fussball.setX(initialPosX);
@@ -298,22 +309,20 @@ public class MainActivity extends AppCompatActivity {
 
         fussball.setX(fussball.getX() + speed * direction[0]);
         fussball.setY(fussball.getY() + speed * direction[1]);
-        int size = fussball.getWidth();
 
-
-        this.oval = new RectF(fussball.getX() - size / 2,
+        /*this.oval = new RectF(fussball.getX() - size / 2,
                 fussball.getY() - size / 2, fussball.getX() + size / 2,
                 fussball.getY() + size / 2);
         Rect bounds = new Rect();
         this.oval.roundOut(bounds);
+*/
 
-
-        //Check if ball auf dem Player
-            if(fussball.getY() >= (player1.getY() - player1.getHeight())) {
-                if ((player1.getX() - size / 2 <= fussball.getX()) && (player1.getX() + size / 2 + player1.getWidth() >= fussball.getX())) {
+        //Check if ball touches the Player
+        if(fussball.getY() >= (player1.getY() - player1.getHeight())) {
+            if ((player1.getX() - size / 2 <= fussball.getX()) && (player1.getX() + size / 2 + player1.getWidth() >= fussball.getX())) {
                     direction[1] = direction[1] * -1;
-                }
             }
+        }
 
         if(fussball.getY() <= player2.getY() + player2.getHeight())  {
             if ((player2.getX() - size / 2 <= fussball.getX()) && (player2.getX() + size / 2 + player2.getWidth() >= fussball.getX())) {
@@ -324,24 +333,26 @@ public class MainActivity extends AppCompatActivity {
 
         //This is what you're looking for ▼
 
-        if (!gameFrame.getClipBounds(bounds)) {
+        //if (!gameFrame.getClipBounds(bounds)) {
             if (fussball.getX() < 0 || fussball.getX() + size > gameFrame.getWidth()) {
                 direction[0] = direction[0] * -1;
             }
 
             if (fussball.getY() < 0 ){
                 timer.cancel();
+                //task1=null;
 
+                player1.setX(frameWidth/2 - player1.getLayoutParams().width/2);
+                player2.setX(frameWidth/2- player2.getLayoutParams().width/2);
 
-                task1=null;
-
-                player1.setX(375.0f);
-                player2.setX(375.0f);
-
-                fussball.setX(500.0f);
-                fussball.setY(670.0f);
+                fussball.setX(initialPosX);
+                fussball.setY(initialPosY);
+                //goal.setText("Goaall   für Soieler 1");
+                //goal.setVisibility(View.VISIBLE);
+                //goalVisible=true;
 
                 task1 = new Task1();
+                timer = new Timer();
                 timer.scheduleAtFixedRate(task1,5000,12);
             }
                 if( fussball.getY() + size > gameFrame.getHeight()) {
@@ -350,16 +361,21 @@ public class MainActivity extends AppCompatActivity {
 
                     task1=null;
 
-                    player1.setX(375.0f);
-                    player2.setX(375.0f);
+                    player1.setX(frameWidth/2 - player1.getLayoutParams().width/2);
+                    player2.setX(frameWidth/2- player2.getLayoutParams().width/2);
 
-                    fussball.setX(500.0f);
-                    fussball.setY(670.0f);
-                    timer = new Timer();
+
+                    fussball.setX(initialPosX);
+                    fussball.setY(initialPosY);
+                    //goal.setText("Go2");
+                    //goal.setVisibility(View.VISIBLE);
+                    //goalVisible=true;
+
                     task1 = new Task1();
+                    timer = new Timer();
                     timer.scheduleAtFixedRate(task1,5000,12);
             }
-        }
+       // }
     }
 
     public void quitGame(View view) {
@@ -369,6 +385,12 @@ public class MainActivity extends AppCompatActivity {
     private class Task1 extends TimerTask{
 
         public void run() {
+
+            if(goalVisible) {
+                goal.setVisibility(View.INVISIBLE);
+                goalVisible = false;
+            }
+
               move();
 
         }
