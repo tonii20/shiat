@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void level1(){
         this.speed=5;
+
     }
     public void level2(){
         this.speed=10;
@@ -98,47 +99,49 @@ public class MainActivity extends AppCompatActivity {
 
     public void processPitch(float pitchInHz) {
 
-        final float laenge = frameWidth / 7;
+        final float laenge = frameWidth / 5;
         Runnable r = new Runnable() {
             @Override
             public void run() {
 
             }
         };
-        if (pitchInHz >= 70 && pitchInHz < 800) {
+        if (pitchInHz >= 80 && pitchInHz < 700) {
 
 
-            if (pitchInHz >= 70 && pitchInHz < 100) {
+            if (pitchInHz >= 80 && pitchInHz < 100) {
 
                 r = new Runnable() {
                     @Override
                     public void run() {
-                        for (int i = 0; i < 6; i++) {
+                        for (int i = 0; i < 20; i++) {
                             if (player1X > 0) {
-                                player1X = player1X - 3;
+                                player1X = player1X - 2;
+                            }
+                            if (player1X < 0) {
+                                player1X = player1X + 2;
                             }
                             if(play1IstDran)
-                            player1.setX(player1X);
-else
-                            player2.setX(player1X);
-
+                                player1.setX(player1X);
+                            else
+                                player2.setX(player1X);
                         }
                     }
                 };
 
 
-            } else if (pitchInHz >= 100 && pitchInHz < 130) {
+            } else if (pitchInHz >= 100 && pitchInHz < 150) {
 
 
                 r = new Runnable() {
                     @Override
                     public void run() {
-                        for (int i = 0; i < 6; i++) {
+                        for (int i = 0; i < 20; i++) {
                             if (player1X > laenge) {
-                                player1X = player1X - 3;
+                                player1X = player1X - 2;
                             }
                             if (player1X < laenge) {
-                                player1X = player1X + 3;
+                                player1X = player1X + 2;
                             }
                             if(play1IstDran)
                             player1.setX(player1X);
@@ -149,16 +152,16 @@ else
                 };
 
 
-            } else if (pitchInHz >= 130 && pitchInHz < 180) {
+            } else if (pitchInHz >= 150 && pitchInHz < 220) {
                 r = new Runnable() {
                     @Override
                     public void run() {
-                        for (int i = 0; i < 6; i++) {
+                        for (int i = 0; i < 20; i++) {
                             if (player1X > 2 * laenge) {
-                                player1X = player1X - 3;
+                                player1X = player1X - 2;
                             }
                             if (player1X < 2 * laenge) {
-                                player1X = player1X + 3;
+                                player1X = player1X + 2;
                             }
                             if(play1IstDran)
                             player1.setX(player1X);
@@ -167,16 +170,16 @@ else
                         }
                     }
                 };
-            } else if (pitchInHz >= 180 && pitchInHz < 260) {
+            } else if (pitchInHz >= 220 && pitchInHz < 430) {
                 r = new Runnable() {
                     @Override
                     public void run() {
-                        for (int i = 0; i < 6; i++) {
+                        for (int i = 0; i < 20; i++) {
                             if (player1X > 3 * laenge) {
-                                player1X = player1X - 3;
+                                player1X = player1X - 2;
                             }
                             if (player1X < 3 * laenge) {
-                                player1X = player1X + 3;
+                                player1X = player1X + 2;
                             }
                             if(play1IstDran)
                             player1.setX(player1X);
@@ -185,17 +188,17 @@ else
                         }
                     }
                 };
-            } else if (pitchInHz >= 260 && pitchInHz <= 400) {
+            } else if (pitchInHz >=430 && pitchInHz <= 700) {
 
                 r = new Runnable() {
                     @Override
                     public void run() {
-                        for (int i = 0; i < 6; i++) {
+                        for (int i = 0; i < 20; i++) {
                             if (player1X > 4 * laenge) {
-                                player1X = player1X - 3;
+                                player1X = player1X - 2;
                             }
                             if (player1X < 4 * laenge) {
-                                player1X = player1X + 3;
+                                player1X = player1X + 2;
                             }
                             if(play1IstDran)
                             player1.setX(player1X);
@@ -204,47 +207,11 @@ else
                         }
                     }
                 };
-            } else if (pitchInHz >= 400 && pitchInHz < 600) {
-                r = new Runnable() {
-                    @Override
-                    public void run() {
-                        for (int i = 0; i < 6; i++) {
-                            if (player1X > 5 * laenge) {
-                                player1X = player1X - 3;
-                            }
-                            if (player1X < 5 * laenge) {
-                                player1X = player1X + 3;
-                            }
-                            if(play1IstDran)
-                            player1.setX(player1X);
-                            else player2.setX(player1X);
-                        }
-                    }
-                };
-            } else if (pitchInHz >= 600 && pitchInHz < 798) {
-                r = new Runnable() {
-                    @Override
-                    public void run() {
-                        for (int i = 0; i < 6; i++) {
-                            if (player1X > 5 * laenge) {
-                                player1X = player1X - 3;
-                            }
-                            if (player1X < 6 * laenge) {
-                                player1X = player1X + 3;
-                            }
-                            if(play1IstDran)
-                            player1.setX(player1X);
-                            else player2.setX(player1X);
-
-                        }
-                    }
-                };
             }
 
             barBewegen = new Thread(r);
             barBewegen.start();
-           // player1.setX(player1X);
-           // player2.setX(player1X);
+
         }
 
 
@@ -460,7 +427,7 @@ else
                             goal.setVisibility(View.VISIBLE);
                             goalVisible=true;
                             score2++;
-                            scorePlayer1.setText("Player 2 : "+score2);
+                            scorePlayer2.setText("Player 2 : "+score2);
                         }
                     });
 
