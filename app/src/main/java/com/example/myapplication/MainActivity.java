@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Display;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private int frameHeight, frameWidth;
     private ImageView goal;
     private boolean goalVisible=false;
+    private Button level1, level2, level3;
 
     private float player1X, player1Y;
     private float player2X, player2Y;
@@ -68,15 +70,29 @@ public class MainActivity extends AppCompatActivity {
     Timer timer;
     Task1 task1;
 
-    public void level1(){
+    public void level1(View view){
         this.speed=5;
-
+        if (level1.getAlpha()!=1) {
+            level1.setAlpha(1);
+            level2.setAlpha(0.7f);
+            level3.setAlpha(0.7f);
+        }
     }
-    public void level2(){
-        this.speed=10;
+    public void level2(View view){
+        this.speed=7;
+        if (level2.getAlpha()!=1) {
+            level2.setAlpha(1);
+            level1.setAlpha(0.7f);
+            level3.setAlpha(0.7f);
+        }
     }
-    public void level3(){
-        this.speed=15;
+    public void level3(View view){
+        this.speed=9;
+        if (level3.getAlpha()!=1) {
+            level3.setAlpha(1);
+            level2.setAlpha(0.7f);
+            level1.setAlpha(0.7f);
+        }
     }
 
     @Override
@@ -93,8 +109,9 @@ public class MainActivity extends AppCompatActivity {
         scorePlayer2 = findViewById(R.id.scorePlayer2);
         goal = findViewById(R.id.goal);
         goal.setVisibility(View.INVISIBLE);
-
-
+        level1 = findViewById(R.id.btnLevel1);
+        level2 = findViewById(R.id.btnLevel2);
+        level3 = findViewById(R.id.btnLevel3);
     }
 
     public void processPitch(float pitchInHz) {
@@ -460,6 +477,7 @@ else
     public void quitGame(View view) {
 
     }
+
 
     private class Task1 extends TimerTask{
 
