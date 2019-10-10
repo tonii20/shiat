@@ -16,17 +16,13 @@
         android:layout_height="match_parent"
         android:background="@drawable/fussballfeld">
 
-        <TextView
-            android:id="@+id/goalText"
+        <ImageView
+            android:id="@+id/goal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="#00F7F3F3"
-            android:text="ghj"
-            android:textColor="@color/colorOrange"
-            android:textSize="50sp"
-            android:textStyle="bold"
-            android:visibility="invisible" />
+            app:srcCompat="@drawable/goooal"
+            tools:visibility="invisible"
+            android:layout_gravity="center"/>
 
         <ImageView
             android:id="@+id/fussball"

@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout gameFrame;
     private LinearLayout startLayout;
     private int frameHeight, frameWidth;
-    private TextView goal;
+    private ImageView goal;
     private boolean goalVisible=false;
 
     private float player1X, player1Y;
@@ -80,7 +80,9 @@ public class MainActivity extends AppCompatActivity {
         fussball = findViewById(R.id.fussball);
         scorePlayer1 = findViewById(R.id.scorePlayer1);
         scorePlayer2 = findViewById(R.id.scorePlayer2);
-        goal = findViewById(R.id.goalText);
+        goal = findViewById(R.id.goal);
+        goal.setVisibility(View.INVISIBLE);
+
 
     }
 
@@ -304,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
+    Handler handler1 = new Handler();
     public void move() {
 
         fussball.setX(fussball.getX() + speed * direction[0]);
@@ -347,9 +349,17 @@ public class MainActivity extends AppCompatActivity {
 
                 fussball.setX(initialPosX);
                 fussball.setY(initialPosY);
-                //goal.setText("Goaall   für Soieler 1");
-                //goal.setVisibility(View.VISIBLE);
-                //goalVisible=true;
+
+                handler1.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        goal.getLayoutParams().height= frameHeight/5;
+                                goal.getLayoutParams().width=frameWidth/4;
+                        goal.setVisibility(View.VISIBLE);
+                        goalVisible=true;
+                    }
+                });
+
 
                 task1 = new Task1();
                 timer = new Timer();
@@ -367,9 +377,18 @@ public class MainActivity extends AppCompatActivity {
 
                     fussball.setX(initialPosX);
                     fussball.setY(initialPosY);
-                    //goal.setText("Go2");
-                    //goal.setVisibility(View.VISIBLE);
-                    //goalVisible=true;
+
+                    handler1.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            goal.getLayoutParams().height= frameHeight/5;
+                            goal.getLayoutParams().width=frameWidth/4;
+                            goal.setVisibility(View.VISIBLE);
+                            goalVisible=true;
+                        }
+                    });
+
+
 
                     task1 = new Task1();
                     timer = new Timer();
