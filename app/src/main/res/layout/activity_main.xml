@@ -20,10 +20,10 @@
             android:id="@+id/goal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/goooal"
+            android:layout_gravity="center"
             android:alpha="0.9"
-            tools:visibility="invisible"
-            android:layout_gravity="center"/>
+            app:srcCompat="@drawable/goooal"
+           android:visibility="invisible"/>
 
         <ImageView
             android:id="@+id/fussball"
@@ -47,7 +47,10 @@
             android:id="@+id/sekAnzeige"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+            android:textSize="70dp"
+            android:textColor="@color/colorOrange"
+            android:textStyle="bold"
+            android:layout_gravity="center|center_horizontal" />
 
         <ImageView
             android:id="@+id/football"

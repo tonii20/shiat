@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.Display;
 import android.view.View;
@@ -37,58 +38,62 @@ import be.tarsos.dsp.pitch.PitchProcessor;
 
 public class MainActivity extends AppCompatActivity {
 
+    //Image
+    ImageView player1, player2, fussball;
+    //timer
+    TextView sekAnzeige;
+    Boolean play1IstDran;
+    //Richtung
+    float randomx;
+    float randomy;
+    float randomxminus;
+    float randomyminus;
+    //Threadscheise
+    Thread barBewegen = new Thread();
+    Timer timer;
+    Task1 task1;
+    Handler handler1 = new Handler();
     //Ball
     private float[] direction; //direction modifier (-1,1)
+    //Layout
     private int speed = 5;
     private RectF oval;
     private int size;
-
-
-    //Image
-    ImageView player1, player2, fussball;
-    private int initialPosY ;
-    private int initialPosX ;
-
-
-    Handler handler1 = new Handler();
-    Boolean play1IstDran;
     //Score
-
-    Thread barBewegen = new Thread();
+    private Button level1, level2, level3;
     private FrameLayout gameFrame;
     private LinearLayout startLayout;
     private int frameHeight, frameWidth;
     private ImageView goal;
-    private boolean goalVisible=false;
-    private Button level1, level2, level3;
-
+    private boolean goalVisible = false;
     private float player1X, player1Y;
     private float player2X, player2Y;
+    private int initialPosY;
+    private int initialPosX;
     private TextView scorePlayer1, scorePlayer2;
     private int score1, score2;
-    //Threadscheise
-    Timer timer;
-    Task1 task1;
 
-    public void level1(View view){
-        this.speed=5;
-        if (level1.getAlpha()!=1) {
+    public void level1(View view) {
+        this.speed = 5;
+        if (level1.getAlpha() != 1) {
             level1.setAlpha(1);
             level2.setAlpha(0.7f);
             level3.setAlpha(0.7f);
         }
     }
-    public void level2(View view){
-        this.speed=7;
-        if (level2.getAlpha()!=1) {
+
+    public void level2(View view) {
+        this.speed = 7;
+        if (level2.getAlpha() != 1) {
             level2.setAlpha(1);
             level1.setAlpha(0.7f);
             level3.setAlpha(0.7f);
         }
     }
-    public void level3(View view){
-        this.speed=9;
-        if (level3.getAlpha()!=1) {
+
+    public void level3(View view) {
+        this.speed = 9;
+        if (level3.getAlpha() != 1) {
             level3.setAlpha(1);
             level2.setAlpha(0.7f);
             level1.setAlpha(0.7f);
@@ -108,7 +113,10 @@ public class MainActivity extends AppCompatActivity {
         scorePlayer1 = findViewById(R.id.scorePlayer1);
         scorePlayer2 = findViewById(R.id.scorePlayer2);
         goal = findViewById(R.id.goal);
-        goal.setVisibility(View.INVISIBLE);
+        sekAnzeige = findViewById(R.id.sekAnzeige);
+        sekAnzeige.setVisibility(View.INVISIBLE);
+
+
         level1 = findViewById(R.id.btnLevel1);
         level2 = findViewById(R.id.btnLevel2);
         level3 = findViewById(R.id.btnLevel3);
@@ -138,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                             if (player1X < 0) {
                                 player1X = player1X + 2;
                             }
-                            if(play1IstDran)
+                            if (play1IstDran)
                                 player1.setX(player1X);
                             else
                                 player2.setX(player1X);
@@ -160,10 +168,10 @@ public class MainActivity extends AppCompatActivity {
                             if (player1X < laenge) {
                                 player1X = player1X + 2;
                             }
-                            if(play1IstDran)
-                            player1.setX(player1X);
-else
-                            player2.setX(player1X);
+                            if (play1IstDran)
+                                player1.setX(player1X);
+                            else
+                                player2.setX(player1X);
                         }
                     }
                 };
@@ -180,10 +188,10 @@ else
                             if (player1X < 2 * laenge) {
                                 player1X = player1X + 2;
                             }
-                            if(play1IstDran)
-                            player1.setX(player1X);
-else
-                            player2.setX(player1X);
+                            if (play1IstDran)
+                                player1.setX(player1X);
+                            else
+                                player2.setX(player1X);
                         }
                     }
                 };
@@ -198,14 +206,14 @@ else
                             if (player1X < 3 * laenge) {
                                 player1X = player1X + 2;
                             }
-                            if(play1IstDran)
-                            player1.setX(player1X);
-else
-                            player2.setX(player1X);
+                            if (play1IstDran)
+                                player1.setX(player1X);
+                            else
+                                player2.setX(player1X);
                         }
                     }
                 };
-            } else if (pitchInHz >=430 && pitchInHz <= 700) {
+            } else if (pitchInHz >= 430 && pitchInHz <= 700) {
 
                 r = new Runnable() {
                     @Override
@@ -217,10 +225,10 @@ else
                             if (player1X < 4 * laenge) {
                                 player1X = player1X + 2;
                             }
-                            if(play1IstDran)
-                            player1.setX(player1X);
+                            if (play1IstDran)
+                                player1.setX(player1X);
                             else
-                            player2.setX(player1X);
+                                player2.setX(player1X);
                         }
                     }
                 };
@@ -234,39 +242,40 @@ else
 
     }
 
-    float randomx ;
-    float randomy ;
-    float randomxminus;
-    float randomyminus ;
-    public void startGame(View view) {
 
-        AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
-
+    public void setzteRichtung() {
         //Direction
         randomx = (float) new Random().nextFloat();
 
         randomy = (float) new Random().nextFloat();
-        randomxminus =(float) new Random().nextFloat();
-        randomyminus =(float) new Random().nextFloat();
-        if(randomxminus>0.5f){
-            randomx=-randomx;
+        randomxminus = (float) new Random().nextFloat();
+        randomyminus = (float) new Random().nextFloat();
+        if (randomxminus > 0.5f) randomx = -randomx;
 
+        if (randomyminus > 0.5f) {
+            randomy = -randomy;
+            play1IstDran = false;
+        } else {
+            play1IstDran = true;
         }
 
-        if(randomyminus>0.5f){
-            randomy=-randomy;
-            play1IstDran=false;
-        }else{ play1IstDran=true;}
-
-        if(randomx < 0.5){
-        direction = new float[]{randomx, randomy};}
-        else {
+        if (randomx < 0.5) {
+            direction = new float[]{randomx, randomy};
+        } else {
             direction = new float[]{randomx - 0.2f, randomy};
         }
+
+    }
+
+
+    public void startGame(View view) {
+
+        AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
+
+        setzteRichtung();
         task1 = new Task1();
 
         timer = new Timer();
-        timer.scheduleAtFixedRate(task1,3000,12);
 
 
         PitchDetectionHandler pdh = new PitchDetectionHandler() {
@@ -295,34 +304,37 @@ else
 
 
         if (frameHeight == 0) {
-            gameFrame.setLayoutParams(new LinearLayout.LayoutParams(gameFrame.getWidth(),gameFrame.getHeight()*9/10));
+            gameFrame.setLayoutParams(new LinearLayout.LayoutParams(gameFrame.getWidth(), gameFrame.getHeight() * 9 / 10));
 
 
             frameHeight = gameFrame.getLayoutParams().height;
             frameWidth = gameFrame.getLayoutParams().width;
 
             fussball.getLayoutParams().height = frameWidth / 15;
-            size = frameWidth/15;
+            size = frameWidth / 15;
             fussball.getLayoutParams().width = size;
             fussball.setScaleType(ImageView.ScaleType.FIT_XY);
-            player1.getLayoutParams().height = (frameWidth / 5 ) / 4;
-            player2.getLayoutParams().height = (frameWidth / 5 )/4;
+            player1.getLayoutParams().height = (frameWidth / 5) / 4;
+            player2.getLayoutParams().height = (frameWidth / 5) / 4;
 
             player1.getLayoutParams().width = frameWidth / 5;
             player2.getLayoutParams().width = frameWidth / 5;
             player1.setScaleType(ImageView.ScaleType.FIT_XY);
             player2.setScaleType(ImageView.ScaleType.FIT_XY);
-            player1.setX(frameWidth/2 - player1.getLayoutParams().width/2);
-            player2.setX(frameWidth/2- player2.getLayoutParams().width/2);
+            player1.setX(frameWidth / 2 - player1.getLayoutParams().width / 2);
+            player2.setX(frameWidth / 2 - player2.getLayoutParams().width / 2);
 
-            initialPosY =  frameHeight/2 - size/2;
-            initialPosX =  frameWidth/2 - size/2;
+            initialPosY = frameHeight / 2 - size / 2;
+            initialPosX = frameWidth / 2 - size / 2;
 
 
             fussball.setX(initialPosX);
             fussball.setY(initialPosY);
 
         }
+
+        timer.scheduleAtFixedRate(task1, 5000, 12);
+        countdowntimer();
 
 
         startLayout.setVisibility(View.INVISIBLE);
@@ -332,163 +344,159 @@ else
 
         scorePlayer1.setText("Score: 0");
         scorePlayer2.setText("Score: 0");
-        score1=0;
-        score2=0;
+        score1 = 0;
+        score2 = 0;
 
 
     }
 
     public void move() {
 
-        if(randomxminus>0.5f)
-        fussball.setX(fussball.getX() + speed * (int)direction[0]-1);
+        if (randomxminus > 0.5f)
+            fussball.setX(fussball.getX() + speed * (int) direction[0] - 1);
         else
-            fussball.setX(fussball.getX() + speed * (int)direction[0]+1);
+            fussball.setX(fussball.getX() + speed * (int) direction[0] + 1);
 
-        if(randomyminus>0.5f)
-        fussball.setY(fussball.getY() + speed * (int)(direction[1]-1.0f));
+        if (randomyminus > 0.5f)
+            fussball.setY(fussball.getY() + speed * (int) (direction[1] - 1.0f));
         else
-            fussball.setY(fussball.getY() + speed * (int)(direction[1]+1.0f));
-
-
+            fussball.setY(fussball.getY() + speed * (int) (direction[1] + 1.0f));
 
 
         //Check if ball touches the Player
-        if(fussball.getY() >= (player1.getY() - player1.getHeight())) {
+        if (fussball.getY() >= (player1.getY() - player1.getHeight())) {
             if ((player1.getX() - size / 2 <= fussball.getX()) && (player1.getX() + size / 2 + player1.getWidth() >= fussball.getX())) {
 
-                    direction[1] = direction[1] * -1.0f;
-                    randomyminus=1-randomyminus;
-                    play1IstDran=false;
+                direction[1] = direction[1] * -1.0f;
+                randomyminus = 1 - randomyminus;
+                play1IstDran = false;
             }
         }
 
-        if(fussball.getY() <= player2.getY() + player2.getHeight())  {
+        if (fussball.getY() <= player2.getY() + player2.getHeight()) {
             if ((player2.getX() - size / 2 <= fussball.getX()) && (player2.getX() + size / 2 + player2.getWidth() >= fussball.getX())) {
                 direction[1] = direction[1] * -1.0f;
-                randomyminus=1-randomyminus;
+                randomyminus = 1 - randomyminus;
 
                 play1IstDran = true;
             }
         }
 
+        if (fussball.getX() < 0 || fussball.getX() + size > gameFrame.getWidth()) {
+            direction[0] = direction[0] * -1;
+            randomxminus = 1 - randomxminus;
+        }
 
-        //This is what you're looking for ▼
+        if (fussball.getY() < 0) {
+            torGeschossenPlayer1();
 
-        //if (!gameFrame.getClipBounds(bounds)) {
-            if (fussball.getX() < 0 || fussball.getX() + size > gameFrame.getWidth()) {
-                direction[0] = direction[0] * -1;
-                randomxminus=1-randomxminus;
+        }
+        if (fussball.getY() + size > gameFrame.getHeight()) {
+
+            torGeschossenPlayer2();
+
+        }
+        // }
+    }
+
+    public void torGeschossenPlayer2() {
+        timer.cancel();
+        task1 = null;
+        player1.setX(frameWidth / 2 - player1.getLayoutParams().width / 2);
+        player2.setX(frameWidth / 2 - player2.getLayoutParams().width / 2);
+        fussball.setX(initialPosX);
+        fussball.setY(initialPosY);
+        handler1.post(new Runnable() {
+            @Override
+            public void run() {
+                score2++;
+                scorePlayer2.setText("Player 2 : " + score2);
+                countdowntimer();
             }
+        });
+        setzteRichtung();
+        task1 = new Task1();
+        timer = new Timer();
+        timer.scheduleAtFixedRate(task1, 5000, 12);
 
-            if (fussball.getY() < 0 ){
-                timer.cancel();
-                //task1=null;
+    }
 
-                player1.setX(frameWidth/2 - player1.getLayoutParams().width/2);
-                player2.setX(frameWidth/2- player2.getLayoutParams().width/2);
 
-                fussball.setX(initialPosX);
-                fussball.setY(initialPosY);
+    public void torGeschossenPlayer1() {
+        timer.cancel();
+        task1 = null;
+        player1.setX(frameWidth / 2 - player1.getLayoutParams().width / 2);
+        player2.setX(frameWidth / 2 - player2.getLayoutParams().width / 2);
+        fussball.setX(initialPosX);
+        fussball.setY(initialPosY);
+        handler1.post(new Runnable() {
+            @Override
+            public void run() {
+                score1++;
+                scorePlayer1.setText("Player 1 : " + score1);
+                countdowntimer();
+            }
+        });
+        setzteRichtung();
+        task1 = new Task1();
+        timer = new Timer();
+        timer.scheduleAtFixedRate(task1, 5000, 12);
 
-                handler1.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        goal.getLayoutParams().height= frameHeight/5;
-                                goal.getLayoutParams().width=frameWidth/4;
-                        goal.setVisibility(View.VISIBLE);
-                        goalVisible=true;
-                        score1++;
-                        scorePlayer1.setText("Player 1: "+score1);
-                    }
-                });
-                //Direction
-                randomx = (float) new Random().nextFloat();
-                randomy = (float) new Random().nextFloat();
-                randomxminus =(float) new Random().nextFloat();
-                randomyminus =(float) new Random().nextFloat();
-                if(randomxminus>0.5f)randomx=-randomx;
+    }
 
-                if(randomyminus>0.5f){
-                    randomy=-randomy;
-                    play1IstDran=false;
-                }else{ play1IstDran=true;}
-                if(randomx < 0.5){
-                    direction = new float[]{randomx, randomy};}
-                else {
-                    direction = new float[]{randomx - 0.2f, randomy};
+
+    public void countdowntimer() {
+        new CountDownTimer(5000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                if (millisUntilFinished > 4000) {
+                    handler1.post(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            goal.getLayoutParams().width = frameWidth / 2;
+                            goal.getLayoutParams().height = frameWidth / 3;
+                            goal.setScaleType(ImageView.ScaleType.FIT_XY);
+
+                            goal.setVisibility(View.VISIBLE);
+
+
+                        }
+                    });
                 }
-
-                task1 = new Task1();
-                timer = new Timer();
-                timer.scheduleAtFixedRate(task1,5000,12);
-            }
-                if( fussball.getY() + size > gameFrame.getHeight()) {
-
-                    timer.cancel();
-
-                    task1=null;
-
-                    player1.setX(frameWidth/2 - player1.getLayoutParams().width/2);
-                    player2.setX(frameWidth/2- player2.getLayoutParams().width/2);
-
-
-                    fussball.setX(initialPosX);
-                    fussball.setY(initialPosY);
+                if (millisUntilFinished < 3000) {
 
                     handler1.post(new Runnable() {
                         @Override
                         public void run() {
-                            goal.getLayoutParams().height= frameHeight/5;
-                            goal.getLayoutParams().width=frameWidth/4;
-                            goal.setVisibility(View.VISIBLE);
-                            goalVisible=true;
-                            score2++;
-                            scorePlayer2.setText("Player 2 : "+score2);
+
+                            goal.setVisibility(View.INVISIBLE);
+                            sekAnzeige.setVisibility(View.VISIBLE);
+
                         }
                     });
+                }
 
-                    //Direction
-                    randomx = (float) new Random().nextFloat();
-                    randomy = (float) new Random().nextFloat();
-                    randomxminus =(float) new Random().nextFloat();
-                    randomyminus =(float) new Random().nextFloat();
-                    if(randomxminus>0.5f)randomx=-randomx;
-
-                    if(randomyminus>0.5f){
-                        randomy=-randomy;
-                        play1IstDran=false;
-                    }else{ play1IstDran=true;}
-
-                    if(randomx < 0.5){
-                        direction = new float[]{randomx, randomy};}
-                    else {
-                        direction = new float[]{randomx , randomy};
-                    }
-
-
-                    task1 = new Task1();
-                    timer = new Timer();
-                    timer.scheduleAtFixedRate(task1,3000,12);
+                if (millisUntilFinished < 1000) {
+                    sekAnzeige.setText("GOOO");
+                } else {
+                    sekAnzeige.setText("" + millisUntilFinished / 1000);
+                }
             }
-       // }
+
+            public void onFinish() {
+
+                sekAnzeige.setVisibility(View.INVISIBLE);
+            }
+        }.start();
+
     }
 
-    public void quitGame(View view) {
-
-    }
-
-
-    private class Task1 extends TimerTask{
+    private class Task1 extends TimerTask {
 
         public void run() {
 
-            if(goalVisible) {
-                goal.setVisibility(View.INVISIBLE);
-                goalVisible = false;
-            }
-
-              move();
+            move();
 
         }
     }
