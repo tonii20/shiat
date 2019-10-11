@@ -22,8 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:alpha="0.9"
-            app:srcCompat="@drawable/goooal"
-           android:visibility="invisible"/>
+            android:visibility="invisible"
+            app:srcCompat="@drawable/goooal" />
 
         <ImageView
             android:id="@+id/fussball"
@@ -47,10 +47,10 @@
             android:id="@+id/sekAnzeige"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="70dp"
+            android:layout_gravity="center|center_horizontal"
             android:textColor="@color/colorOrange"
-            android:textStyle="bold"
-            android:layout_gravity="center|center_horizontal" />
+            android:textSize="70dp"
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/football"
@@ -100,33 +100,31 @@
                 android:text="Level 1"
                 android:textColor="#E6E6E6"
                 android:textSize="18dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btnLevel2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/background"
-                android:text="Level 2"
                 android:alpha="0.7"
-                android:textSize="18dp"
+                android:background="@drawable/background"
                 android:elevation="20dp"
                 android:onClick="level2"
+                android:text="Level 2"
                 android:textColor="#E6E6E6"
-                />
+                android:textSize="18dp" />
 
             <Button
                 android:id="@+id/btnLevel3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/background"
-                android:text="Level 3"
                 android:alpha="0.7"
-                android:textSize="18dp"
+                android:background="@drawable/background"
                 android:elevation="20dp"
                 android:onClick="level3"
+                android:text="Level 3"
                 android:textColor="#E6E6E6"
-                />
+                android:textSize="18dp" />
 
         </LinearLayout>
 
@@ -167,6 +165,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/background"
                 android:text="Pause"
+                android:onClick="pausePushed"
                 android:textColor="#E6E6E6"/>
 
             <TextView

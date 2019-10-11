@@ -38,6 +38,8 @@ import be.tarsos.dsp.pitch.PitchProcessor;
 
 public class MainActivity extends AppCompatActivity {
 
+    //PauseButton
+    Button pauseButton;
     //Image
     ImageView player1, player2, fussball;
     //timer
@@ -115,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
         goal = findViewById(R.id.goal);
         sekAnzeige = findViewById(R.id.sekAnzeige);
         sekAnzeige.setVisibility(View.INVISIBLE);
+        pauseButton= findViewById(R.id.btnPauseResume);
 
 
         level1 = findViewById(R.id.btnLevel1);
@@ -267,10 +270,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    AudioDispatcher dispatcher;
+    PitchDetectionHandler pdh;
+    AudioProcessor pitchProcessor;
+    Thread audioThread;
     public void startGame(View view) {
 
-        AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
+        dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
 
         setzteRichtung();
         task1 = new Task1();
@@ -278,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
         timer = new Timer();
 
 
-        PitchDetectionHandler pdh = new PitchDetectionHandler() {
+        pdh = new PitchDetectionHandler() {
 
             @Override
             public void handlePitch(PitchDetectionResult res, AudioEvent e) {
@@ -295,11 +301,11 @@ public class MainActivity extends AppCompatActivity {
 
         };
 
-        AudioProcessor pitchProcessor = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
+        pitchProcessor = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
         dispatcher.addAudioProcessor(pitchProcessor);
 
 
-        Thread audioThread = new Thread(dispatcher, "Audio Thread");
+        audioThread = new Thread(dispatcher, "Audio Thread");
         audioThread.start();
 
 
@@ -446,7 +452,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void countdowntimer() {
-        new CountDownTimer(5000, 1000) {
+         new CountDownTimer(5000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 if (millisUntilFinished > 4000) {
@@ -490,6 +496,61 @@ public class MainActivity extends AppCompatActivity {
             }
         }.start();
 
+    }
+    boolean pausetrue=false;
+    public void pausePushed(View view){
+
+       if(!pausetrue) {
+           pausetrue=true;
+           timer.cancel();
+           timer = null;
+           task1 = null;
+           pauseButton.setText("Resume");
+           pdh=  new PitchDetectionHandler() {
+
+               @Override
+               public void handlePitch(PitchDetectionResult res, AudioEvent e) {
+                   final float pitchInHz = res.getPitch();
+                   runOnUiThread(
+                           new Runnable() {
+                               @Override
+                               public void run() {
+
+
+                               }
+                           });
+               }
+
+           };
+
+
+       }
+       else {
+           pausetrue = false;
+           task1 = new Task1();
+           timer = new Timer();
+           timer.scheduleAtFixedRate(task1, 1000, 12);
+           pauseButton.setText("Pause");
+
+
+           pdh = new PitchDetectionHandler() {
+
+               @Override
+               public void handlePitch(PitchDetectionResult res, AudioEvent e) {
+                   final float pitchInHz = res.getPitch();
+                   runOnUiThread(
+                           new Runnable() {
+                               @Override
+                               public void run() {
+                                   processPitch(pitchInHz);
+
+                               }
+                           });
+               }
+
+           };
+
+       }
     }
 
     private class Task1 extends TimerTask {
