@@ -304,7 +304,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (frameHeight == 0) {
-            gameFrame.setLayoutParams(new LinearLayout.LayoutParams(gameFrame.getWidth(), gameFrame.getHeight() * 9 / 10));
+            gameFrame.getLayoutParams().height = gameFrame.getHeight()*9/10;
+            gameFrame.getLayoutParams().width = gameFrame.getWidth();
+            //gameFrame.setLayoutParams(new LinearLayout.LayoutParams(gameFrame.getWidth(), gameFrame.getHeight() * 9 / 10));
 
 
             frameHeight = gameFrame.getLayoutParams().height;
