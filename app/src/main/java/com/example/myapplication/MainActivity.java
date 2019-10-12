@@ -40,11 +40,13 @@ public class MainActivity extends AppCompatActivity {
 
     //PauseButton
     Button pauseButton;
+    Button quitButton;
     //Image
     ImageView player1, player2, fussball;
     //timer
     TextView sekAnzeige;
     Boolean play1IstDran;
+    ImageView siegerBild;
     //Richtung
     float randomx;
     float randomy;
@@ -101,11 +103,13 @@ public class MainActivity extends AppCompatActivity {
             level1.setAlpha(0.7f);
         }
     }
+    Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.bundle=savedInstanceState;
 
         gameFrame = findViewById(R.id.gameFrame);
         startLayout = findViewById(R.id.startLayout);
@@ -118,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
         sekAnzeige = findViewById(R.id.sekAnzeige);
         sekAnzeige.setVisibility(View.INVISIBLE);
         pauseButton= findViewById(R.id.btnPauseResume);
+        quitButton=findViewById(R.id.btnQuit);
+        siegerBild=findViewById(R.id.siegerBild);
 
 
         level1 = findViewById(R.id.btnLevel1);
@@ -309,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
         audioThread.start();
 
 
-        if (frameHeight == 0) {
+
             gameFrame.setLayoutParams(new LinearLayout.LayoutParams(gameFrame.getWidth(), gameFrame.getHeight() * 9 / 10));
 
 
@@ -332,12 +338,15 @@ public class MainActivity extends AppCompatActivity {
 
             initialPosY = frameHeight / 2 - size / 2;
             initialPosX = frameWidth / 2 - size / 2;
-
+            pauseButton.setWidth(frameWidth/5);
+            quitButton.setWidth(frameWidth/5);
 
             fussball.setX(initialPosX);
             fussball.setY(initialPosY);
 
-        }
+
+
+
 
         timer.scheduleAtFixedRate(task1, 5000, 12);
         countdowntimer();
@@ -418,7 +427,9 @@ public class MainActivity extends AppCompatActivity {
                 score2++;
                 scorePlayer2.setText("Player 2 : " + score2);
                 if (score2 >= maxpunkte) {
-                    setContentView(R.layout.activity_main);
+
+                siegerBild.setImageResource(R.drawable.player2wins);
+                siegerBild.setVisibility(View.VISIBLE);
 
                 }
                 countdowntimer();
@@ -430,7 +441,7 @@ public class MainActivity extends AppCompatActivity {
         timer.scheduleAtFixedRate(task1, 5000, 12);
 
     }
-    int maxpunkte = 5;
+    int maxpunkte = 1;
     public void torGeschossenPlayer1() {
         timer.cancel();
         task1 = null;
@@ -444,10 +455,11 @@ public class MainActivity extends AppCompatActivity {
                 score1++;
                 scorePlayer1.setText("Player 1 : " + score1);
                 if (score1 >= maxpunkte) {
-
-                    setContentView(R.layout.activity_main);
+                    siegerBild.setImageResource(R.drawable.player1wins);
+                    siegerBild.setVisibility(View.VISIBLE);
 
                 }
+                countdowntimer();
             }
         });
         setzteRichtung();
@@ -516,12 +528,6 @@ public class MainActivity extends AppCompatActivity {
            audioThread.interrupt();
            dispatcher.stop();
 
-
-
-
-
-
-
        }
        else {
            pausetrue = false;
@@ -535,13 +541,13 @@ public class MainActivity extends AppCompatActivity {
 
            audioThread = new Thread(dispatcher, "Audio Thread");
            audioThread.start();
-
-
-
-
-       }
+ }
     }
 
+    public void quit(View view){
+        finish();
+        moveTaskToBack(true);
+    }
     private class Task1 extends TimerTask {
 
         public void run() {
