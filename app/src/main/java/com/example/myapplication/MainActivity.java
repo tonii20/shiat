@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -36,7 +37,7 @@ import be.tarsos.dsp.pitch.PitchDetectionResult;
 import be.tarsos.dsp.pitch.PitchProcessor;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     //PauseButton
     Button pauseButton;
@@ -127,6 +128,8 @@ public class MainActivity extends AppCompatActivity {
         level1 = findViewById(R.id.btnLevel1);
         level2 = findViewById(R.id.btnLevel2);
         level3 = findViewById(R.id.btnLevel3);
+
+        startGame(gameFrame);
     }
 
     public void processPitch(float pitchInHz) {
