@@ -32,6 +32,9 @@
             android:src="@drawable/fussball"
             android:visibility="invisible" />
 
+
+
+
         <ImageView
             android:id="@+id/player1"
             android:layout_width="125dp"
@@ -51,6 +54,7 @@
             android:textColor="@color/colorOrange"
             android:textSize="70dp"
             android:textStyle="bold" />
+
 
         <ImageView
             android:id="@+id/football"
