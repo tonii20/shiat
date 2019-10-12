@@ -137,12 +137,12 @@ public class MainActivity extends AppCompatActivity {
         if (pitchInHz >= 80 && pitchInHz < 700) {
 
 
-            if (pitchInHz >= 80 && pitchInHz < 100) {
+            if (pitchInHz >= 80 && pitchInHz < 120) {
 
                 r = new Runnable() {
                     @Override
                     public void run() {
-                        for (int i = 0; i < 20; i++) {
+                        for (int i = 0; i < 15; i++) {
                             if (player1X > 0) {
                                 player1X = player1X - 2;
                             }
@@ -158,13 +158,13 @@ public class MainActivity extends AppCompatActivity {
                 };
 
 
-            } else if (pitchInHz >= 100 && pitchInHz < 150) {
+            } else if (pitchInHz >= 120 && pitchInHz < 180) {
 
 
                 r = new Runnable() {
                     @Override
                     public void run() {
-                        for (int i = 0; i < 20; i++) {
+                        for (int i = 0; i < 15; i++) {
                             if (player1X > laenge) {
                                 player1X = player1X - 2;
                             }
@@ -180,11 +180,11 @@ public class MainActivity extends AppCompatActivity {
                 };
 
 
-            } else if (pitchInHz >= 150 && pitchInHz < 220) {
+            } else if (pitchInHz >= 180 && pitchInHz < 260) {
                 r = new Runnable() {
                     @Override
                     public void run() {
-                        for (int i = 0; i < 20; i++) {
+                        for (int i = 0; i < 10; i++) {
                             if (player1X > 2 * laenge) {
                                 player1X = player1X - 2;
                             }
@@ -198,11 +198,11 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 };
-            } else if (pitchInHz >= 220 && pitchInHz < 430) {
+            } else if (pitchInHz >= 260 && pitchInHz < 530) {
                 r = new Runnable() {
                     @Override
                     public void run() {
-                        for (int i = 0; i < 20; i++) {
+                        for (int i = 0; i < 10; i++) {
                             if (player1X > 3 * laenge) {
                                 player1X = player1X - 2;
                             }
@@ -216,12 +216,12 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 };
-            } else if (pitchInHz >= 430 && pitchInHz <= 700) {
+            } else if (pitchInHz >= 530 && pitchInHz <= 700) {
 
                 r = new Runnable() {
                     @Override
                     public void run() {
-                        for (int i = 0; i < 20; i++) {
+                        for (int i = 0; i < 10; i++) {
                             if (player1X > 4 * laenge) {
                                 player1X = player1X - 2;
                             }
@@ -419,6 +419,10 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 score2++;
                 scorePlayer2.setText("Player 2 : " + score2);
+                if (score2 >= maxpunkte) {
+                    setContentView(R.layout.activity_main);
+
+                }
                 countdowntimer();
             }
         });
@@ -428,8 +432,7 @@ public class MainActivity extends AppCompatActivity {
         timer.scheduleAtFixedRate(task1, 5000, 12);
 
     }
-
-
+    int maxpunkte = 5;
     public void torGeschossenPlayer1() {
         timer.cancel();
         task1 = null;
@@ -442,7 +445,11 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 score1++;
                 scorePlayer1.setText("Player 1 : " + score1);
-                countdowntimer();
+                if (score1 >= maxpunkte) {
+
+                    setContentView(R.layout.activity_main);
+
+                }
             }
         });
         setzteRichtung();
@@ -508,22 +515,11 @@ public class MainActivity extends AppCompatActivity {
            timer = null;
            task1 = null;
            pauseButton.setText("Resume");
-           pdh=  new PitchDetectionHandler() {
-
-               @Override
-               public void handlePitch(PitchDetectionResult res, AudioEvent e) {
-                   final float pitchInHz = res.getPitch();
-                   runOnUiThread(
-                           new Runnable() {
-                               @Override
-                               public void run() {
+           audioThread.interrupt();
 
 
-                               }
-                           });
-               }
 
-           };
+
 
 
        }
@@ -533,24 +529,10 @@ public class MainActivity extends AppCompatActivity {
            timer = new Timer();
            timer.scheduleAtFixedRate(task1, 1000, 12);
            pauseButton.setText("Pause");
+           audioThread = new Thread(dispatcher, "Audio Thread");
+           audioThread.start();
 
 
-           pdh = new PitchDetectionHandler() {
-
-               @Override
-               public void handlePitch(PitchDetectionResult res, AudioEvent e) {
-                   final float pitchInHz = res.getPitch();
-                   runOnUiThread(
-                           new Runnable() {
-                               @Override
-                               public void run() {
-                                   processPitch(pitchInHz);
-
-                               }
-                           });
-               }
-
-           };
 
        }
     }
