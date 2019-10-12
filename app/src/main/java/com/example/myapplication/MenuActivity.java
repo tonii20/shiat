@@ -45,12 +45,27 @@ public class MenuActivity extends Activity implements View.OnClickListener {
                 mainActivity();
             case R.id.btnLevel1:
                 main.level1(view);
+                if (btnLevel1.getAlpha() != 1) {
+                    btnLevel1.setAlpha(1);
+                    btnLevel2.setAlpha(0.7f);
+                    btnLevel3.setAlpha(0.7f);
+                }
                 break;
             case R.id.btnLevel2:
                 main.level2(view);
+                if (btnLevel2.getAlpha() != 1) {
+                    btnLevel2.setAlpha(1);
+                    btnLevel3.setAlpha(0.7f);
+                    btnLevel1.setAlpha(0.7f);
+                }
                 break;
             case R.id.btnLevel3:
                 main.level3(view);
+                if (btnLevel3.getAlpha() != 1) {
+                    btnLevel3.setAlpha(1);
+                    btnLevel2.setAlpha(0.7f);
+                    btnLevel1.setAlpha(0.7f);
+                }
                 break;
             case R.id.btnQuit:
                 quit(view);

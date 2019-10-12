@@ -80,29 +80,14 @@ public class MainActivity extends Activity {
 
     public void level1(View view) {
         this.speed = 5;
-        if (level1.getAlpha() != 1) {
-            level1.setAlpha(1);
-            level2.setAlpha(0.7f);
-            level3.setAlpha(0.7f);
-        }
     }
 
     public void level2(View view) {
         this.speed = 7;
-        if (level2.getAlpha() != 1) {
-            level2.setAlpha(1);
-            level1.setAlpha(0.7f);
-            level3.setAlpha(0.7f);
-        }
     }
 
     public void level3(View view) {
         this.speed = 9;
-        if (level3.getAlpha() != 1) {
-            level3.setAlpha(1);
-            level2.setAlpha(0.7f);
-            level1.setAlpha(0.7f);
-        }
     }
 
     @Override
@@ -124,9 +109,9 @@ public class MainActivity extends Activity {
         siegerBild=findViewById(R.id.siegerBild);
 
 
-        level1 = findViewById(R.id.btnLevel1);
-        level2 = findViewById(R.id.btnLevel2);
-        level3 = findViewById(R.id.btnLevel3);
+        //level1 = findViewById(R.id.btnLevel1);
+        //level2 = findViewById(R.id.btnLevel2);
+        //level3 = findViewById(R.id.btnLevel3);
 
         startGame(gameFrame);
     }
