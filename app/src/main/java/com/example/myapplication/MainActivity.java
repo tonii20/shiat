@@ -378,7 +378,27 @@ public class MainActivity extends AppCompatActivity {
 
         //Check if ball touches the Player
         if (fussball.getY() >= (player1.getY() - player1.getHeight())) {
-            if ((player1.getX() - size / 2 <= fussball.getX()) && (player1.getX() + size / 2 + player1.getWidth() >= fussball.getX())) {
+            if( player1.getX() - size/2 <= fussball.getX() &&  player1.getX()+ size*1/5>=fussball.getX()){
+                direction[1] = direction[1] * -1.0f;
+                if(direction[0]>0) {
+                    direction[0] = direction[0] * -1.0f;
+                    randomxminus = 1 - randomxminus;
+                }
+                randomyminus = 1 - randomyminus;
+                play1IstDran = false;
+            }
+            else if( player1.getX() + player1.getWidth() + size/2 >= fussball.getX() &&
+                    player1.getX()+ player1.getWidth()-size*1/5<=fussball.getX()){
+                direction[1] = direction[1] * -1.0f;
+                if(direction[0]<0){
+                    direction[0] = direction[0] * -1.0f;
+                    randomxminus = 1 - randomxminus;
+                }
+                randomyminus = 1 - randomyminus;
+                play1IstDran = false;
+            }
+            else if((player1.getX() - size / 2 <= fussball.getX()) &&
+                    (player1.getX() + size / 2 + player1.getWidth() >= fussball.getX())) {
 
                 direction[1] = direction[1] * -1.0f;
                 randomyminus = 1 - randomyminus;
@@ -387,7 +407,30 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (fussball.getY() <= player2.getY() + player2.getHeight()) {
-            if ((player2.getX() - size / 2 <= fussball.getX()) && (player2.getX() + size / 2 + player2.getWidth() >= fussball.getX())) {
+            if( player2.getX() - size/2 <= fussball.getX() &&  player2.getX()+ size*1/5>=fussball.getX()){
+                direction[1] = direction[1] * -1.0f;
+                if(direction[0]>0) {
+                    direction[0] = direction[0] * -1.0f;
+                    randomxminus = 1 - randomxminus;
+
+                }
+                randomyminus = 1 - randomyminus;
+
+                play1IstDran = true;
+            }
+            else if( player2.getX() + player2.getWidth() + size/2 >= fussball.getX() &&
+                    player2.getX() + player2.getWidth() - size*1/5<=fussball.getX()){
+                direction[1] = direction[1] * -1.0f;
+                if(direction[0]<0){
+                    direction[0] = direction[0] * -1.0f;
+                    randomxminus = 1 - randomxminus;
+
+                }
+                randomyminus = 1 - randomyminus;
+                play1IstDran = true;
+            }
+            else if ((player2.getX() - size / 2 <= fussball.getX()) &&
+                    (player2.getX() + size / 2 + player2.getWidth() >= fussball.getX())) {
                 direction[1] = direction[1] * -1.0f;
                 randomyminus = 1 - randomyminus;
 
@@ -469,7 +512,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void countdowntimer() {
-         new CountDownTimer(5000, 1000) {
+        new CountDownTimer(5000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 if (millisUntilFinished > 4000) {
@@ -517,14 +560,14 @@ public class MainActivity extends AppCompatActivity {
     boolean pausetrue=false;
     public void pausePushed(View view){
 
-       if(!pausetrue) {
-           pausetrue=true;
-           timer.cancel();
-           timer = null;
-           task1 = null;
-           pauseButton.setText("Resume");
-           audioThread.interrupt();
-           dispatcher.stop();
+        if(!pausetrue) {
+            pausetrue=true;
+            timer.cancel();
+            timer = null;
+            task1 = null;
+            pauseButton.setText("Resume");
+            audioThread.interrupt();
+            dispatcher.stop();
 
        }
        else {

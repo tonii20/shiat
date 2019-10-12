@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@drawable/goooal">
+
+    <ImageView
+        android:id="@+id/lastWinner"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/btnStart"
+        android:layout_marginTop="100dp"
+        />
+
+    <Button
+        android:id="@+id/btnStart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background"
+        android:onClick="startGame"
+        android:layout_centerInParent="true"
+        android:text="Start"
+        android:textColor="#E6E6E6"
+        android:textSize="18dp" />
+
+    <Button
+        android:id="@+id/btnLevel1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="1"
+        android:background="@drawable/background"
+        android:onClick="level1"
+        android:layout_toLeftOf="@+id/btnLevel2"
+        android:layout_below="@+id/btnStart"
+        android:text="Level 1"
+        android:textColor="#E6E6E6"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:layout_below="@+id/btnStart"
+        android:id="@+id/btnLevel2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.7"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/background"
+        android:elevation="20dp"
+        android:onClick="level2"
+        android:text="Level 2"
+        android:textColor="#E6E6E6"
+        android:textSize="18dp" />
+
+    <Button
+        android:id="@+id/btnLevel3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/btnLevel2"
+        android:layout_below="@+id/btnStart"
+        android:alpha="0.7"
+        android:background="@drawable/background"
+        android:elevation="20dp"
+        android:onClick="level3"
+        android:text="Level 3"
+        android:textColor="#E6E6E6"
+        android:textSize="18dp" />
+    <Button
+        android:id="@+id/btnQuit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background"
+        android:onClick="quitGame"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/btnLevel2"
+        android:text="Quit"
+        android:textColor="#E6E6E6"
+        android:textSize="18dp" />
+
+
+
+
+</RelativeLayout>
