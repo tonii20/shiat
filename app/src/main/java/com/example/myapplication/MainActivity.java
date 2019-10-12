@@ -514,6 +514,8 @@ public class MainActivity extends AppCompatActivity {
            task1 = null;
            pauseButton.setText("Resume");
            audioThread.interrupt();
+           dispatcher.stop();
+
 
 
 
@@ -527,8 +529,13 @@ public class MainActivity extends AppCompatActivity {
            timer = new Timer();
            timer.scheduleAtFixedRate(task1, 1000, 12);
            pauseButton.setText("Pause");
+           dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
+           pitchProcessor = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
+           dispatcher.addAudioProcessor(pitchProcessor);
+
            audioThread = new Thread(dispatcher, "Audio Thread");
            audioThread.start();
+
 
 
 
