@@ -79,65 +79,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-
-        <LinearLayout
-            android:id="@+id/startLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/btnStart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.7"
-                android:background="@drawable/background"
-                android:onClick="startGame"
-                android:text="Start"
-                android:textColor="#E6E6E6"
-                android:textSize="18dp" />
-
-            <Button
-                android:id="@+id/btnLevel1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="1"
-                android:background="@drawable/background"
-                android:onClick="level1"
-                android:text="Level 1"
-                android:textColor="#E6E6E6"
-                android:textSize="18dp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/btnLevel2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.7"
-                android:background="@drawable/background"
-                android:elevation="20dp"
-                android:onClick="level2"
-                android:text="Level 2"
-                android:textColor="#E6E6E6"
-                android:textSize="18dp" />
-
-            <Button
-                android:id="@+id/btnLevel3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.7"
-                android:background="@drawable/background"
-                android:elevation="20dp"
-                android:onClick="level3"
-                android:text="Level 3"
-                android:textColor="#E6E6E6"
-                android:textSize="18dp" />
-
-        </LinearLayout>
-
-
     </FrameLayout>
 
         <LinearLayout

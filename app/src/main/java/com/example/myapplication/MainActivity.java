@@ -111,7 +111,6 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         gameFrame = findViewById(R.id.gameFrame);
-        startLayout = findViewById(R.id.startLayout);
         player1 = findViewById(R.id.player1);
         player2 = findViewById(R.id.player2);
         fussball = findViewById(R.id.fussball);
@@ -353,7 +352,6 @@ public class MainActivity extends Activity {
         countdowntimer();
 
 
-        startLayout.setVisibility(View.INVISIBLE);
         fussball.setVisibility(View.VISIBLE);
         player1.setVisibility(View.VISIBLE);
         player2.setVisibility(View.VISIBLE);
