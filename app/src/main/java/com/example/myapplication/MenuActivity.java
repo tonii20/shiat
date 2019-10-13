@@ -45,7 +45,9 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         switch(view.getId()){
 
             case R.id.btnStart:
-                mainActivity();
+                mainActivity(view);
+                main.startGame(view);
+                break;
             case R.id.btnLevel1:
                 main.level1(view);
                 if (btnLevel1.getAlpha() != 1) {
@@ -81,7 +83,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
     }
 
 
-    public void mainActivity() {
+    public void mainActivity(View view) {
         Intent intentT = new Intent(this, main.getClass());
         startActivity(intentT);
     }

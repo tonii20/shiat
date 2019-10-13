@@ -1,27 +1,16 @@
 package com.example.myapplication;
 
 import android.app.Activity;
-import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 
 import java.util.Random;
@@ -93,7 +82,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_main);
 
         gameFrame = findViewById(R.id.gameFrame);
         player1 = findViewById(R.id.player1);
@@ -103,17 +92,11 @@ public class MainActivity extends Activity {
         scorePlayer2 = findViewById(R.id.scorePlayer2);
         goal = findViewById(R.id.goal);
         sekAnzeige = findViewById(R.id.sekAnzeige);
-        sekAnzeige.setVisibility(View.INVISIBLE);
         pauseButton= findViewById(R.id.btnPauseResume);
         quitButton=findViewById(R.id.btnQuit);
         siegerBild=findViewById(R.id.siegerBild);
 
-
-        //level1 = findViewById(R.id.btnLevel1);
-        //level2 = findViewById(R.id.btnLevel2);
-        //level3 = findViewById(R.id.btnLevel3);
-
-        startGame();
+        //startGame(new View(this));
     }
 
     public void processPitch(float pitchInHz) {
@@ -268,10 +251,12 @@ public class MainActivity extends Activity {
 
 
 
-    public void startGame() {
+    public void startGame(View view) {
 
         dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
 
+        initialPosY = (int) fussball.getY();
+        initialPosX = (int) fussball.getX();
         setzteRichtung();
         task1 = new Task1();
 
@@ -303,32 +288,30 @@ public class MainActivity extends Activity {
         audioThread.start();
 
 
-            frameHeight = gameFrame.getLayoutParams().height;
-            frameWidth = gameFrame.getLayoutParams().width;
+        //frameHeight = gameFrame.getMeasuredHeight();
+        frameWidth = gameFrame.getWidth();
+                frameHeight = gameFrame.getHeight();
+                frameWidth = gameFrame.getWidth();
 
-            fussball.getLayoutParams().height = frameWidth / 15;
-            size = frameWidth / 15;
-            fussball.getLayoutParams().width = size;
-            fussball.setScaleType(ImageView.ScaleType.FIT_XY);
-            player1.getLayoutParams().height = (frameWidth / 5) / 4;
-            player2.getLayoutParams().height = (frameWidth / 5) / 4;
+        scorePlayer1.setText("hallo" +  frameHeight);
 
-            player1.getLayoutParams().width = frameWidth / 5;
-            player2.getLayoutParams().width = frameWidth / 5;
-            player1.setScaleType(ImageView.ScaleType.FIT_XY);
-            player2.setScaleType(ImageView.ScaleType.FIT_XY);
+        fussball.getLayoutParams().height = frameWidth / 15;
+        size = frameWidth / 15;
+        fussball.getLayoutParams().width = size;
+        fussball.setScaleType(ImageView.ScaleType.FIT_XY);
+        player1.getLayoutParams().height = (frameWidth / 5) / 4;
+        player2.getLayoutParams().height = (frameWidth / 5) / 4;
+        player1.getLayoutParams().width = frameWidth / 5;
+        player2.getLayoutParams().width = frameWidth / 5;
+        player1.setScaleType(ImageView.ScaleType.FIT_XY);
+        player2.setScaleType(ImageView.ScaleType.FIT_XY);
 
 
 
         timer.scheduleAtFixedRate(task1, 5000, 12);
         countdowntimer();
 
-
-        fussball.setVisibility(View.VISIBLE);
-        player1.setVisibility(View.VISIBLE);
-        player2.setVisibility(View.VISIBLE);
-
-        scorePlayer1.setText("Score: 0");
+        //scorePlayer1.setText("Score: 0");
         scorePlayer2.setText("Score: 0");
         score1 = 0;
         score2 = 0;

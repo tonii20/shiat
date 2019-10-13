@@ -2,132 +2,127 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/totalLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/score"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_above="@+id/gameFrame"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:id="@+id/scorePlayer1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:background="@color/colorWhite"
+            android:text="Score Player1:"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnPauseResume"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/scorePlayer1"
+            android:background="@drawable/background"
+            android:text="Pause"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnQuit"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/scorePlayer2"
+            android:background="@drawable/background"
+            android:text="Quit"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/scorePlayer2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@color/colorBlack"
+            android:text="Score Player2:"
+            android:gravity="center"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/gameFrame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
         android:background="@drawable/fussballfeld">
 
-        <ImageView
-            android:id="@+id/siegerBild"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible"
-            app:srcCompat="@drawable/player1wins" />
 
         <ImageView
             android:id="@+id/goal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:background="@drawable/goooal"
+            android:layout_width="200dp"
+            android:layout_height="120dp"
             android:layout_gravity="center"
-            android:alpha="0.9"
-            android:visibility="invisible"
-            app:srcCompat="@drawable/goooal" />
+            android:visibility="invisible"/>
 
         <ImageView
-            android:id="@+id/fussball"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/fussball"
-            android:visibility="invisible" />
-
-
-        <ImageView
-            android:id="@+id/player1"
-            android:layout_width="125dp"
-            android:layout_height="30dp"
-            android:layout_gravity="bottom"
-            android:src="@drawable/klavier"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/siegerBild"
+            android:layout_width="200dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            />
 
         <TextView
             android:id="@+id/sekAnzeige"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|center_horizontal"
+            android:text=""
+            android:visibility="invisible"
             android:textColor="@color/colorOrange"
             android:textSize="70dp"
-            android:textStyle="bold" />
-
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            />
 
         <ImageView
-            android:id="@+id/football"
-            android:layout_width="30dp"
+            android:id="@+id/player1"
+            android:layout_width="100dp"
+            android:background="@drawable/klavier"
             android:layout_height="30dp"
-            android:src="@drawable/fussball"
-            android:visibility="invisible" />
+            android:layout_gravity="center_horizontal"
+            />
 
         <ImageView
             android:id="@+id/player2"
-            android:layout_width="125dp"
+            android:background="@drawable/klavier"
+            android:layout_width="100dp"
             android:layout_height="30dp"
-            android:layout_marginBottom="100dp"
-            android:src="@drawable/klavier"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_gravity="bottom|center"
+            />
+
+        <ImageView
+            android:id="@+id/fussball"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/fussball"
+            android:layout_gravity="center"/>
 
     </FrameLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/scorePlayer1"
-                android:layout_width="132dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="bottom"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:text="Score Player 1: 0"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/btnQuit"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@drawable/background"
-                android:onClick="quit"
-                android:text="Quit"
-                android:textColor="#E6E6E6" />
-
-            <Button
-                android:id="@+id/btnPauseResume"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@drawable/background"
-                android:text="Pause"
-                android:onClick="pausePushed"
-                android:textColor="#E6E6E6"/>
-
-            <TextView
-                android:id="@+id/scorePlayer2"
-                android:layout_width="129dp"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:text="Score Player 2: 0"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
 
 </LinearLayout>
