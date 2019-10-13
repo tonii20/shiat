@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.ImageView;
 public class MenuActivity extends Activity implements View.OnClickListener {
     private Button btnStart, btnLevel1, btnLevel2, btnLevel3, btnQuit;
     protected ImageView winner;
+    MainActivity main = new MainActivity();
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +40,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        MainActivity main = new MainActivity();
+
 
         switch(view.getId()){
 
@@ -79,7 +82,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
 
     public void mainActivity() {
-        Intent intentT = new Intent(this, MainActivity.class);
+        Intent intentT = new Intent(this, main.getClass());
         startActivity(intentT);
     }
 

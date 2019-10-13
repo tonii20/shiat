@@ -93,7 +93,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main2);
 
         gameFrame = findViewById(R.id.gameFrame);
         player1 = findViewById(R.id.player1);
@@ -113,7 +113,7 @@ public class MainActivity extends Activity {
         //level2 = findViewById(R.id.btnLevel2);
         //level3 = findViewById(R.id.btnLevel3);
 
-        startGame(gameFrame);
+        startGame();
     }
 
     public void processPitch(float pitchInHz) {
@@ -265,7 +265,10 @@ public class MainActivity extends Activity {
     PitchDetectionHandler pdh;
     AudioProcessor pitchProcessor;
     Thread audioThread;
-    public void startGame(View view) {
+
+
+
+    public void startGame() {
 
         dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
 
@@ -300,10 +303,6 @@ public class MainActivity extends Activity {
         audioThread.start();
 
 
-
-            gameFrame.setLayoutParams(new LinearLayout.LayoutParams(gameFrame.getWidth(), gameFrame.getHeight() * 9 / 10));
-
-
             frameHeight = gameFrame.getLayoutParams().height;
             frameWidth = gameFrame.getLayoutParams().width;
 
@@ -318,18 +317,6 @@ public class MainActivity extends Activity {
             player2.getLayoutParams().width = frameWidth / 5;
             player1.setScaleType(ImageView.ScaleType.FIT_XY);
             player2.setScaleType(ImageView.ScaleType.FIT_XY);
-            player1.setX(frameWidth / 2 - player1.getLayoutParams().width / 2);
-            player2.setX(frameWidth / 2 - player2.getLayoutParams().width / 2);
-
-            initialPosY = frameHeight / 2 - size / 2;
-            initialPosX = frameWidth / 2 - size / 2;
-            pauseButton.setWidth(frameWidth/5);
-            quitButton.setWidth(frameWidth/5);
-
-            fussball.setX(initialPosX);
-            fussball.setY(initialPosY);
-
-
 
 
 
@@ -392,7 +379,7 @@ public class MainActivity extends Activity {
             }
         }
 
-        if (fussball.getY() <= player2.getY() + player2.getHeight()) {
+        else if (fussball.getY() <= player2.getY() + player2.getHeight()) {
             if( player2.getX() - size/2 <= fussball.getX() &&  player2.getX()+ size*1/5>=fussball.getX()){
                 direction[1] = direction[1] * -1.0f;
                 if(direction[0]>0) {
@@ -509,7 +496,6 @@ public class MainActivity extends Activity {
                             goal.getLayoutParams().width = frameWidth / 2;
                             goal.getLayoutParams().height = frameWidth / 3;
                             goal.setScaleType(ImageView.ScaleType.FIT_XY);
-
                             goal.setVisibility(View.VISIBLE);
 
 
