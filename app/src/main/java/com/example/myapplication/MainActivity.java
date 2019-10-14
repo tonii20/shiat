@@ -5,6 +5,7 @@ import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -295,7 +296,6 @@ public class MainActivity extends Activity {
             scorePlayer1.setText("hallo" + frameHeight);
 
             size = frameWidth / 45;
-
 
 
             fussball.getLayoutParams().width = size;
