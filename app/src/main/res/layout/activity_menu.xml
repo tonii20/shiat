@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@drawable/goooal">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MenuActivity">
 
     <ImageView
         android:id="@+id/lastWinner"
@@ -16,8 +20,8 @@
         android:id="@+id/btnStart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:background="@drawable/background"
+        android:layout_centerInParent="true"
         android:text="Start"
         android:textColor="#E6E6E6"
         android:textSize="18dp" />
@@ -27,22 +31,22 @@
         android:id="@+id/btnLevel1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnStart"
-        android:layout_toLeftOf="@+id/btnLevel2"
         android:alpha="1"
         android:background="@drawable/background"
+        android:layout_toLeftOf="@+id/btnLevel2"
+        android:layout_below="@+id/btnStart"
         android:text="Level 1"
         android:textColor="#E6E6E6"
         android:textSize="18dp"
         android:textStyle="bold" />
 
     <Button
+        android:layout_below="@+id/btnStart"
         android:id="@+id/btnLevel2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnStart"
-        android:layout_centerHorizontal="true"
         android:alpha="0.7"
+        android:layout_centerHorizontal="true"
         android:background="@drawable/background"
         android:elevation="20dp"
         android:text="Level 2"
@@ -58,7 +62,6 @@
         android:alpha="0.7"
         android:background="@drawable/background"
         android:elevation="20dp"
-        android:onClick="level3"
         android:text="Level 3"
         android:textColor="#E6E6E6"
         android:textSize="18dp" />
@@ -74,7 +77,4 @@
         android:textColor="#E6E6E6"
         android:textSize="18dp" />
 
-
-
-
-</RelativeLayout>
+</LinearLayout>
