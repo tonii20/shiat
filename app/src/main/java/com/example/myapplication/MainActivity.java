@@ -95,8 +95,6 @@ public class MainActivity extends Activity {
         pauseButton= findViewById(R.id.btnPauseResume);
         quitButton=findViewById(R.id.btnQuit);
         siegerBild=findViewById(R.id.siegerBild);
-
-        //startGame(new View(this));
     }
 
     public void processPitch(float pitchInHz) {
@@ -251,8 +249,8 @@ public class MainActivity extends Activity {
 
 
 
-    public void startGame(View view) {
-
+    protected void onResume() {
+        super.onResume();
         dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
 
         initialPosY = (int) fussball.getY();
@@ -287,24 +285,26 @@ public class MainActivity extends Activity {
         audioThread = new Thread(dispatcher, "Audio Thread");
         audioThread.start();
 
+        if(frameHeight==0) {
+            gameFrame.measure(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+            frameWidth = gameFrame.getMeasuredWidth();
+            frameHeight = gameFrame.getMeasuredHeight();
 
-        //frameHeight = gameFrame.getMeasuredHeight();
-        frameWidth = gameFrame.getWidth();
-                frameHeight = gameFrame.getHeight();
-                frameWidth = gameFrame.getWidth();
 
-        scorePlayer1.setText("hallo" +  frameHeight);
+            scorePlayer2.setText("hallo" + frameWidth);
+            scorePlayer1.setText("hallo" + frameHeight);
 
-        fussball.getLayoutParams().height = frameWidth / 15;
-        size = frameWidth / 15;
-        fussball.getLayoutParams().width = size;
-        fussball.setScaleType(ImageView.ScaleType.FIT_XY);
-        player1.getLayoutParams().height = (frameWidth / 5) / 4;
-        player2.getLayoutParams().height = (frameWidth / 5) / 4;
-        player1.getLayoutParams().width = frameWidth / 5;
-        player2.getLayoutParams().width = frameWidth / 5;
-        player1.setScaleType(ImageView.ScaleType.FIT_XY);
-        player2.setScaleType(ImageView.ScaleType.FIT_XY);
+            size = frameWidth / 45;
+
+            fussball.getLayoutParams().width = size;
+            fussball.getLayoutParams().height = size;
+
+            player1.getLayoutParams().height = frameWidth / 40;
+            player2.getLayoutParams().height = frameWidth / 40;
+            player1.getLayoutParams().width = frameWidth / 13;
+            player2.getLayoutParams().width = frameWidth / 13;
+
+        }
 
 
 
@@ -312,7 +312,7 @@ public class MainActivity extends Activity {
         countdowntimer();
 
         //scorePlayer1.setText("Score: 0");
-        scorePlayer2.setText("Score: 0");
+        //scorePlayer2.setText("Score: 0");
         score1 = 0;
         score2 = 0;
 

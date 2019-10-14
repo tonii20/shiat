@@ -46,7 +46,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
             case R.id.btnStart:
                 mainActivity(view);
-                main.startGame(view);
+                //main.startGame(view);
                 break;
             case R.id.btnLevel1:
                 main.level1(view);
