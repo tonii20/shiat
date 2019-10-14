@@ -12,7 +12,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
     private Button btnStart, btnLevel1, btnLevel2, btnLevel3, btnQuit;
     protected ImageView winner;
     MainActivity main = new MainActivity();
-
+    private int level= 1;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
                 //main.startGame(view);
                 break;
             case R.id.btnLevel1:
-                main.level1(view);
+                level=8;
                 if (btnLevel1.getAlpha() != 1) {
                     btnLevel1.setAlpha(1);
                     btnLevel2.setAlpha(0.7f);
@@ -57,7 +57,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.btnLevel2:
-                main.level2(view);
+               level=11;
                 if (btnLevel2.getAlpha() != 1) {
                     btnLevel2.setAlpha(1);
                     btnLevel3.setAlpha(0.7f);
@@ -65,7 +65,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.btnLevel3:
-                main.level3(view);
+               level=15;
                 if (btnLevel3.getAlpha() != 1) {
                     btnLevel3.setAlpha(1);
                     btnLevel2.setAlpha(0.7f);
@@ -85,11 +85,15 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
     public void mainActivity(View view) {
         Intent intentT = new Intent(this, main.getClass());
+
+        intentT.putExtra("level",level);
         startActivity(intentT);
+        finish();
     }
 
     public void quit(View view){
         finish();
         moveTaskToBack(true);
     }
+
 }

@@ -67,60 +67,55 @@
     <FrameLayout
         android:id="@+id/gameFrame"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="10"
         android:background="@drawable/fussballfeld">
 
-
         <ImageView
             android:id="@+id/goal"
-            android:background="@drawable/goooal"
             android:layout_width="200dp"
             android:layout_height="120dp"
             android:layout_gravity="center"
-            android:visibility="invisible"/>
+            android:background="@drawable/goooal"
+            android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/siegerBild"
             android:layout_width="200dp"
             android:layout_height="120dp"
-            android:layout_gravity="center"
-            />
+            android:layout_gravity="center" />
 
         <TextView
             android:id="@+id/sekAnzeige"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text=""
-            android:visibility="invisible"
             android:textColor="@color/colorOrange"
             android:textSize="70dp"
-            android:layout_gravity="center"
             android:textStyle="bold"
-            />
+            android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/player1"
             android:layout_width="100dp"
-            android:background="@drawable/klavier"
             android:layout_height="30dp"
             android:layout_gravity="center_horizontal"
-            />
+            android:background="@drawable/klavier" />
 
         <ImageView
             android:id="@+id/player2"
-            android:background="@drawable/klavier"
             android:layout_width="100dp"
             android:layout_height="30dp"
             android:layout_gravity="bottom|center"
-            />
+            android:background="@drawable/klavier" />
 
         <ImageView
             android:id="@+id/fussball"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/fussball"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:background="@drawable/fussball" />
 
     </FrameLayout>
 

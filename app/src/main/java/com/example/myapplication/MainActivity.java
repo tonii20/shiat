@@ -67,16 +67,12 @@ public class MainActivity extends Activity {
     private TextView scorePlayer1, scorePlayer2;
     private int score1, score2;
 
-    public void level1(View view) {
-        this.speed = 5;
-    }
 
-    public void level2(View view) {
-        this.speed = 7;
-    }
+    public void setlevel() {
 
-    public void level3(View view) {
-        this.speed = 9;
+        Bundle extras = getIntent().getExtras();
+        speed=extras.getInt("level");
+
     }
 
     @Override
@@ -95,6 +91,7 @@ public class MainActivity extends Activity {
         pauseButton= findViewById(R.id.btnPauseResume);
         quitButton=findViewById(R.id.btnQuit);
         siegerBild=findViewById(R.id.siegerBild);
+
     }
 
     public void processPitch(float pitchInHz) {
@@ -251,10 +248,9 @@ public class MainActivity extends Activity {
 
     protected void onResume() {
         super.onResume();
+        setlevel();
         dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
 
-        initialPosY = (int) fussball.getY();
-        initialPosX = (int) fussball.getX();
         setzteRichtung();
         task1 = new Task1();
 
@@ -286,6 +282,10 @@ public class MainActivity extends Activity {
         audioThread.start();
 
         if(frameHeight==0) {
+
+
+            initialPosY = (int) fussball.getY();
+            initialPosX = (int) fussball.getX();
             gameFrame.measure(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
             frameWidth = gameFrame.getMeasuredWidth();
             frameHeight = gameFrame.getMeasuredHeight();
@@ -296,8 +296,12 @@ public class MainActivity extends Activity {
 
             size = frameWidth / 45;
 
+
+
             fussball.getLayoutParams().width = size;
             fussball.getLayoutParams().height = size;
+
+
 
             player1.getLayoutParams().height = frameWidth / 40;
             player2.getLayoutParams().height = frameWidth / 40;
