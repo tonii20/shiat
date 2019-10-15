@@ -83,6 +83,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
     }
 
 
+
     public void mainActivity(View view) {
         Intent intentT = new Intent(this, main.getClass());
 
@@ -90,6 +91,8 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         startActivity(intentT);
         finish();
     }
+
+
 
     public void quit(View view){
         finish();
