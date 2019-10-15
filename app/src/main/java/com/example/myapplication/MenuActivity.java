@@ -42,14 +42,14 @@ public class MenuActivity extends Activity implements View.OnClickListener {
     public void onClick(View view) {
 
 
-        switch(view.getId()){
+        switch (view.getId()) {
 
             case R.id.btnStart:
                 mainActivity(view);
                 //main.startGame(view);
                 break;
             case R.id.btnLevel1:
-                level=8;
+                level = 8;
                 if (btnLevel1.getAlpha() != 1) {
                     btnLevel1.setAlpha(1);
                     btnLevel2.setAlpha(0.7f);
@@ -57,7 +57,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.btnLevel2:
-               level=11;
+                level = 11;
                 if (btnLevel2.getAlpha() != 1) {
                     btnLevel2.setAlpha(1);
                     btnLevel3.setAlpha(0.7f);
@@ -65,7 +65,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.btnLevel3:
-               level=15;
+                level = 15;
                 if (btnLevel3.getAlpha() != 1) {
                     btnLevel3.setAlpha(1);
                     btnLevel2.setAlpha(0.7f);
@@ -81,7 +81,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         }
 
     }
-
+    private int f;
 
 
     public void mainActivity(View view) {
