@@ -14,7 +14,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
     private Button btnStart, btnLevel1, btnLevel2, btnLevel3, btnQuit;
     protected ImageView lastWinner;
     MainActivity main = new MainActivity();
-    private int level= 1;
+    private int speed= 1;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +52,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         }catch(Exception e){
 
         }
+        btnLevel1.setAlpha(1);
 
     }
 
@@ -64,11 +65,11 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         switch (view.getId()) {
 
             case R.id.btnStart:
+                speed=7;
                 mainActivity(view);
-                //main.startGame(view);
                 break;
             case R.id.btnLevel1:
-                level = 8;
+                speed = 7;
                 if (btnLevel1.getAlpha() != 1) {
                     btnLevel1.setAlpha(1);
                     btnLevel2.setAlpha(0.7f);
@@ -76,7 +77,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.btnLevel2:
-                level = 11;
+                speed = 9;
                 if (btnLevel2.getAlpha() != 1) {
                     btnLevel2.setAlpha(1);
                     btnLevel3.setAlpha(0.7f);
@@ -84,7 +85,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
                 }
                 break;
             case R.id.btnLevel3:
-                level = 15;
+                speed = 11;
                 if (btnLevel3.getAlpha() != 1) {
                     btnLevel3.setAlpha(1);
                     btnLevel2.setAlpha(0.7f);
@@ -105,7 +106,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
     public void mainActivity(View view) {
         Intent intentT = new Intent(this, main.getClass());
 
-        intentT.putExtra("level",level);
+        intentT.putExtra("level",speed);
         startActivity(intentT);
         finish();
     }
