@@ -8,9 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import java.io.IOException;
+
 public class MenuActivity extends Activity implements View.OnClickListener {
     private Button btnStart, btnLevel1, btnLevel2, btnLevel3, btnQuit;
-    protected ImageView winner;
+    protected ImageView lastWinner;
     MainActivity main = new MainActivity();
     private int level= 1;
 
@@ -34,8 +36,25 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         btnQuit = findViewById(R.id.btnQuit);
         btnQuit.setOnClickListener(this);
 
+        lastWinner = findViewById(R.id.lastWinner);
+
+        try {
+            Bundle extras = getIntent().getExtras();
+            int sieger = extras.getInt("sieger");
+                if (sieger != 0) {
+                    if (sieger == 1)
+                        lastWinner.setImageResource(R.drawable.player1wins);
+                    else
+                        lastWinner.setImageResource(R.drawable.player2wins);
+
+                }
+
+        }catch(Exception e){
+
+        }
 
     }
+
 
 
     @Override
@@ -81,7 +100,6 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         }
 
     }
-    private int f;
 
 
     public void mainActivity(View view) {

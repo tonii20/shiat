@@ -1,11 +1,12 @@
 package com.example.myapplication;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -25,6 +26,8 @@ import be.tarsos.dsp.io.android.AudioDispatcherFactory;
 import be.tarsos.dsp.pitch.PitchDetectionHandler;
 import be.tarsos.dsp.pitch.PitchDetectionResult;
 import be.tarsos.dsp.pitch.PitchProcessor;
+
+import static android.content.ContentValues.TAG;
 
 
 public class MainActivity extends Activity {
@@ -67,6 +70,8 @@ public class MainActivity extends Activity {
     private int initialPosX;
     private TextView scorePlayer1, scorePlayer2;
     private int score1, score2;
+    private int sieger;
+
 
 
     public void setlevel() {
@@ -247,8 +252,13 @@ public class MainActivity extends Activity {
 
 
 
-    protected void onResume() {
-        super.onResume();
+    protected void startgame() {
+
+
+        scorePlayer1.setText("Score: 0");
+        scorePlayer2.setText("Score: 0");
+        score1 = 0;
+        score2 = 0;
         setlevel();
         dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0);
 
@@ -282,46 +292,56 @@ public class MainActivity extends Activity {
         audioThread = new Thread(dispatcher, "Audio Thread");
         audioThread.start();
 
-        if(frameHeight==0) {
-
-
-            initialPosY = (int) fussball.getY();
-            initialPosX = (int) fussball.getX();
-            gameFrame.measure(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-            frameWidth = gameFrame.getMeasuredWidth();
-            frameHeight = gameFrame.getMeasuredHeight();
-
-
-            scorePlayer2.setText("hallo" + frameWidth);
-            scorePlayer1.setText("hallo" + frameHeight);
-
-            size = frameWidth / 45;
-
-
-            fussball.getLayoutParams().width = size;
-            fussball.getLayoutParams().height = size;
-
-
-
-            player1.getLayoutParams().height = frameWidth / 40;
-            player2.getLayoutParams().height = frameWidth / 40;
-            player1.getLayoutParams().width = frameWidth / 13;
-            player2.getLayoutParams().width = frameWidth / 13;
-
-        }
 
 
 
         timer.scheduleAtFixedRate(task1, 5000, 12);
         countdowntimer();
 
-        //scorePlayer1.setText("Score: 0");
-        //scorePlayer2.setText("Score: 0");
-        score1 = 0;
-        score2 = 0;
 
 
     }
+    public void onWindowFocusChanged(boolean hasFocus) {
+        // TODO Auto-generated method stub
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            if(frameHeight==0) {
+                fussball = (ImageView) findViewById(R.id.fussball);
+                //scorePlayer1.setText(""+fussball.getX());
+
+                Log.d(TAG, "width : " + fussball.getWidth());
+
+                initialPosY = (int) fussball.getY();
+                initialPosX = (int) fussball.getX();
+                frameWidth = gameFrame.getWidth();
+                frameHeight = gameFrame.getHeight();
+
+
+                scorePlayer2.setText("hallo" + frameWidth);
+                scorePlayer1.setText("hallo" + frameHeight);
+
+                size = frameWidth / 15;
+
+
+                fussball.getLayoutParams().width = size;
+                fussball.getLayoutParams().height = size;
+
+
+                player1.getLayoutParams().height = (frameWidth / 5) / 4;
+                player2.getLayoutParams().height = (frameWidth / 5) / 4;
+                player1.getLayoutParams().width = frameWidth / 5;
+                player2.getLayoutParams().width = frameWidth / 5;
+
+
+
+
+            }
+
+        }
+
+
+    }
+
 
     public void move() {
 
@@ -336,8 +356,10 @@ public class MainActivity extends Activity {
             fussball.setY(fussball.getY() + speed * (int) (direction[1] + 1.0f));
 
 
+
         //Check if ball touches the Player
         if (fussball.getY() >= (player1.getY() - player1.getHeight())) {
+            scorePlayer1.setText(player1.getY() +"  "+ player1.getHeight());
             if( player1.getX() - size/2 <= fussball.getX() &&  player1.getX()+ size*1/5>=fussball.getX()){
                 direction[1] = direction[1] * -1.0f;
                 if(direction[0]>0) {
@@ -429,8 +451,8 @@ public class MainActivity extends Activity {
                 scorePlayer2.setText("Player 2 : " + score2);
                 if (score2 >= maxpunkte) {
 
-                siegerBild.setImageResource(R.drawable.player2wins);
-                siegerBild.setVisibility(View.VISIBLE);
+                sieger=2;
+                gamegewonnen();
 
                 }
                 countdowntimer();
@@ -442,7 +464,7 @@ public class MainActivity extends Activity {
         timer.scheduleAtFixedRate(task1, 5000, 12);
 
     }
-    int maxpunkte = 1;
+    int maxpunkte = 2;
     public void torGeschossenPlayer1() {
         timer.cancel();
         task1 = null;
@@ -456,8 +478,8 @@ public class MainActivity extends Activity {
                 score1++;
                 scorePlayer1.setText("Player 1 : " + score1);
                 if (score1 >= maxpunkte) {
-                    siegerBild.setImageResource(R.drawable.player1wins);
-                    siegerBild.setVisibility(View.VISIBLE);
+                    sieger=1;
+                    gamegewonnen();
 
                 }
                 countdowntimer();
@@ -543,11 +565,28 @@ public class MainActivity extends Activity {
            audioThread.start();
  }
     }
-
     public void quit(View view){
+        sieger=0;
+        Intent intentT = new Intent(this, MenuActivity.class);
+        intentT.putExtra("sieger",sieger);
+        startActivity(intentT);
+        handler1.removeCallbacks(task1);
+        timer.cancel();
+
         finish();
-        moveTaskToBack(true);
     }
+
+
+    public void gamegewonnen(){
+        Intent intentT = new Intent(this, MenuActivity.class);
+        intentT.putExtra("sieger",sieger);
+        startActivity(intentT);
+        handler1.removeCallbacks(task1);
+        timer.cancel();
+
+        finish();
+    }
+
     private class Task1 extends TimerTask {
 
         public void run() {
