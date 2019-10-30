@@ -45,7 +45,7 @@
             android:layout_weight="1"
             android:background="@drawable/background"
             android:onClick="quit"
-            android:text="Quit"
+            android:text="Back"
             android:textColor="@color/colorWhite"
             android:textStyle="bold" />
 
@@ -71,6 +71,28 @@
         android:layout_height="0px"
         android:layout_weight="10"
         android:background="@drawable/fussballfeld">
+
+        <TextView
+            android:id="@+id/spielerFeld2"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="100dp"
+            android:textSize="50dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorOrange"
+            android:layout_height="wrap_content"
+            android:text="Player 2" />
+
+        <TextView
+            android:id="@+id/spielerFeld1"
+            android:layout_width="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="100dp"
+            android:textSize="50dp"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorOrange"
+            android:text="Player 1" />
 
         <ImageView
             android:id="@+id/fussball"
@@ -109,14 +131,14 @@
             android:layout_width="100dp"
             android:layout_height="30dp"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/klavier" />
+            android:background="@drawable/klavier2" />
 
         <ImageView
             android:id="@+id/player1"
             android:layout_width="100dp"
             android:layout_height="30dp"
             android:layout_gravity="bottom|center"
-            android:background="@drawable/klavier" />
+            android:background="@drawable/klavier1" />
 
     </FrameLayout>
 

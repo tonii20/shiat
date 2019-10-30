@@ -69,7 +69,7 @@ public class MainActivity extends Activity {
     private float player1X;
     private int initialPosY;
     private int initialPosX;
-    private TextView scorePlayer1, scorePlayer2;
+    private TextView scorePlayer1, scorePlayer2, spielerFeld1, spielerFeld2;
     private int score1, score2;
     private int sieger;
 
@@ -95,6 +95,8 @@ public class MainActivity extends Activity {
         sekAnzeige = findViewById(R.id.sekAnzeige);
         pauseButton = findViewById(R.id.btnPauseResume);
         quitButton = findViewById(R.id.btnQuit);
+        spielerFeld1=findViewById(R.id.spielerFeld1);
+        spielerFeld2=findViewById(R.id.spielerFeld2);
 
 
     }
@@ -494,11 +496,14 @@ public class MainActivity extends Activity {
 
                         }
                     });
-                    if(startKeinGoal)
-                        startKeinGoal=false;
+
                 }
 
                 if (millisUntilFinished < 1000) {
+                    if(startKeinGoal)
+                        startKeinGoal=false;
+                    spielerFeld1.setVisibility(View.INVISIBLE);
+                    spielerFeld2.setVisibility(View.INVISIBLE);
                     sekAnzeige.setText("GOOO");
                 } else {
                     sekAnzeige.setText("" + millisUntilFinished / 1000);
