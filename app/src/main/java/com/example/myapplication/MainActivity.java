@@ -54,7 +54,7 @@ public class MainActivity extends Activity {
     PitchDetectionHandler pdh;
     AudioProcessor pitchProcessor;
     Thread audioThread;
-    int maxpunkte = 2;
+    int maxpunkte = 3;
     boolean pausetrue = false;
     //Ball
     private float[] direction; //direction modifier (-1,1)
