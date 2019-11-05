@@ -4,9 +4,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.io.IOException;
 
@@ -15,12 +22,27 @@ public class MenuActivity extends Activity implements View.OnClickListener {
     protected ImageView lastWinner;
     MainActivity main = new MainActivity();
     private int speed= 1;
-
+    private InterstitialAd mInterstitialAd;
+    private View rl;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
+        /*
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-1291138506652578/7215105841");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+
+        rl= findViewById(R.id.relativeLayout);
+
+         */
         btnStart = findViewById(R.id.btnStart);
         btnStart.setOnClickListener(this);
 
@@ -54,6 +76,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         }
         btnLevel1.setAlpha(1);
 
+
     }
 
 
@@ -65,6 +88,15 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         switch (view.getId()) {
 
             case R.id.btnStart:
+
+        /*
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                } else {
+                    Log.d("TAG", "The interstitial wasn't loaded yet.");
+                }
+                */
+
                 speed=7;
                 mainActivity(view);
                 break;
@@ -117,5 +149,6 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         finish();
         moveTaskToBack(true);
     }
+
 
 }
