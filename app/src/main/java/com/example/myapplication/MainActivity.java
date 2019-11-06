@@ -15,6 +15,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -85,6 +93,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         gameFrame = findViewById(R.id.gameFrame);
         player1 = findViewById(R.id.player1);
         player2 = findViewById(R.id.player2);
@@ -98,15 +107,22 @@ public class MainActivity extends Activity {
         spielerFeld1=findViewById(R.id.spielerFeld1);
         spielerFeld2=findViewById(R.id.spielerFeld2);
 
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
 
-    }
 
-    public void onWindowFocusChanged(boolean hasFocus) {
+
+        }
+
+        public void onWindowFocusChanged(boolean hasFocus) {
         // TODO Auto-generated method stub
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
             if (frameHeight == 0) {
-                fussball = (ImageView) findViewById(R.id.fussball);
+                fussball =  findViewById(R.id.fussball);
 
                 Log.d(TAG, "width : " + fussball.getWidth());
 
@@ -130,12 +146,15 @@ public class MainActivity extends Activity {
 
             }
             startgame();
+
+
         }
 
 
     }
 
     protected void startgame() {
+
 
 
         scorePlayer1.setText("Player 1: 0");
@@ -548,6 +567,7 @@ public class MainActivity extends Activity {
         sieger = 0;
         Intent intentT = new Intent(this, MenuActivity.class);
         intentT.putExtra("sieger", sieger);
+        intentT.putExtra("Banner", 1);
         startActivity(intentT);
         handler1.removeCallbacks(task1);
         try {
@@ -567,6 +587,7 @@ public class MainActivity extends Activity {
     public void gamegewonnen() {
         Intent intentT = new Intent(this, MenuActivity.class);
         intentT.putExtra("sieger", sieger);
+        intentT.putExtra("Banner", 1);
         startActivity(intentT);
         handler1.removeCallbacks(task1);
         timer.cancel();

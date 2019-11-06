@@ -9,7 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -18,31 +24,35 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 import java.io.IOException;
 
 public class MenuActivity extends Activity implements View.OnClickListener {
-    private Button btnStart, btnLevel1, btnLevel2, btnLevel3, btnQuit;
     protected ImageView lastWinner;
     MainActivity main = new MainActivity();
-    private int speed= 1;
+    private Button btnStart, btnLevel1, btnLevel2, btnLevel3, btnQuit;
+    private int speed = 1;
     private InterstitialAd mInterstitialAd;
+    private AdView mAdView;
     private View rl;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        /*
+
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
+        mAdView = findViewById(R.id.Banner1);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-1291138506652578/7215105841");
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
+        rl = findViewById(R.id.relativeLayout);
 
-        rl= findViewById(R.id.relativeLayout);
 
-         */
         btnStart = findViewById(R.id.btnStart);
         btnStart.setOnClickListener(this);
 
@@ -62,24 +72,38 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
         try {
             Bundle extras = getIntent().getExtras();
+            int showbanner = extras.getInt("Banner");
             int sieger = extras.getInt("sieger");
-                if (sieger != 0) {
-                    if (sieger == 1)
-                        lastWinner.setImageResource(R.drawable.player1wins);
-                    else
-                        lastWinner.setImageResource(R.drawable.player2wins);
+            if (showbanner != 0) {
+                mInterstitialAd.setAdListener(new AdListener() {
+                    public void onAdLoaded() {
+                        showInterstitial();
+                    }
+                });
+            }
+            if (sieger != 0) {
+                if (sieger == 1)
+                    lastWinner.setImageResource(R.drawable.player1wins);
+                else
+                    lastWinner.setImageResource(R.drawable.player2wins);
 
-                }
+            }
 
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
+
+
         btnLevel1.setAlpha(1);
 
 
     }
 
-
+    private void showInterstitial() {
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
+    }
 
     @Override
     public void onClick(View view) {
@@ -89,15 +113,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
             case R.id.btnStart:
 
-        /*
-                if (mInterstitialAd.isLoaded()) {
-                    mInterstitialAd.show();
-                } else {
-                    Log.d("TAG", "The interstitial wasn't loaded yet.");
-                }
-                */
-
-                speed=7;
+                speed = 7;
                 mainActivity(view);
                 break;
             case R.id.btnLevel1:
@@ -138,14 +154,13 @@ public class MenuActivity extends Activity implements View.OnClickListener {
     public void mainActivity(View view) {
         Intent intentT = new Intent(this, main.getClass());
 
-        intentT.putExtra("level",speed);
+        intentT.putExtra("level", speed);
         startActivity(intentT);
         finish();
     }
 
 
-
-    public void quit(View view){
+    public void quit(View view) {
         finish();
         moveTaskToBack(true);
     }
