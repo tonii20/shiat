@@ -77,7 +77,7 @@ public class MainActivity extends Activity {
     private float player1X;
     private int initialPosY;
     private int initialPosX;
-    private TextView scorePlayer1, scorePlayer2, spielerFeld1, spielerFeld2;
+    private TextView scorePlayer1, scorePlayer2, spielerFeld1, spielerFeld2, tonHoch, tonTief, erklearung, tabToStart;
     private int score1, score2;
     private int sieger;
 
@@ -106,18 +106,27 @@ public class MainActivity extends Activity {
         quitButton = findViewById(R.id.btnQuit);
         spielerFeld1=findViewById(R.id.spielerFeld1);
         spielerFeld2=findViewById(R.id.spielerFeld2);
+        tonHoch=findViewById(R.id.TonHoch);
+        tonTief=findViewById(R.id.TonTief);
+        erklearung=findViewById(R.id.erklärung);
+        tabToStart=findViewById(R.id.TabToStart);
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+
+
+        gameFrame.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            public void onClick(View view) {
+                tonHoch.setVisibility(View.INVISIBLE);
+                tonTief.setVisibility(View.INVISIBLE);
+                erklearung.setVisibility(View.INVISIBLE);
+                tabToStart.setVisibility(View.INVISIBLE);
+                startgame();
             }
         });
 
+    }
 
-
-        }
-
-        public void onWindowFocusChanged(boolean hasFocus) {
+    public void onWindowFocusChanged(boolean hasFocus) {
         // TODO Auto-generated method stub
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
@@ -146,15 +155,12 @@ public class MainActivity extends Activity {
 
             }
             startgame();
-
-
         }
 
 
     }
 
     protected void startgame() {
-
 
 
         scorePlayer1.setText("Player 1: 0");
@@ -274,7 +280,7 @@ public class MainActivity extends Activity {
                         }
                     }
                 };
-            } else if (pitchInHz >= 390 && pitchInHz < 650) {
+            } else if (pitchInHz >= 390 && pitchInHz < 530) {
                 r = new Runnable() {
                     @Override
                     public void run() {
@@ -292,7 +298,7 @@ public class MainActivity extends Activity {
                         }
                     }
                 };
-            } else if (pitchInHz >= 650 && pitchInHz <= 800) {
+            } else if (pitchInHz >= 530 && pitchInHz <= 800) {
 
                 r = new Runnable() {
                     @Override
@@ -336,6 +342,9 @@ public class MainActivity extends Activity {
         } else {
             play1IstDran = true;
         }
+
+
+        //randomy=randomy*0.75f;
 
         if (randomx < 0.5) {
             direction = new float[]{randomx, randomy};
