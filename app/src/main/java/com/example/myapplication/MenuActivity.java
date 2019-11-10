@@ -47,7 +47,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         mAdView.loadAd(adRequest);
 
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.setAdUnitId("ca-app-pub-1291138506652578/7215105841");
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         rl = findViewById(R.id.relativeLayout);
