@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package our.awesome.SoundBall;
 
 import android.content.Context;
 
